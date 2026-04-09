@@ -271,8 +271,11 @@ async function loadAll() {
     const res = await jsonp(API + '?action=getAll');
     if (res && res.ok) {
       db = res.data.map(r => ({
-        id: String(r.id), fb: r.fb||'', addr: r.addr||'',
-        phone: r.phone||'', orders: Number(r.orders)||0
+        id: String(r.id),
+        fb: String(r.fb||''),
+        addr: String(r.addr||''),
+        phone: r.phone ? String(r.phone).replace(/\.0*$/,'') : '',
+        orders: Number(r.orders)||0
       }));
       cacheSave(db);
       document.getElementById('offline-bar').classList.remove('show');
