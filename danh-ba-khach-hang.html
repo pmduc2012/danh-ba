@@ -387,7 +387,7 @@ function jsonp(url){
   return new Promise((res,rej)=>{
     const cb='cb_'+Date.now()+'_'+Math.random().toString(36).slice(2);
     const sc=document.createElement('script');
-    const tm=setTimeout(()=>{cleanup();rej(new Error('timeout'));},12000);
+    const tm=setTimeout(()=>{cleanup();rej(new Error('timeout'));},8000);
     function cleanup(){clearTimeout(tm);delete window[cb];if(sc.parentNode)sc.parentNode.removeChild(sc);}
     window[cb]=function(d){cleanup();res(d);};
     sc.onerror=()=>{cleanup();rej(new Error('net'));};
@@ -426,9 +426,16 @@ async function loadAll(){
 }
 
 (async()=>{
-  cLoad();renderList();updateCount();
-  await loadAll();
-  document.getElementById('ld').style.display='none';
+  cLoad();
+  // Hiện dữ liệu cache ngay, ẩn loading sau 400ms nếu có cache
+  if(customers.length){
+    setTimeout(()=>{document.getElementById('ld').style.display='none';},400);
+  }
+  renderList();updateCount();
+  const hideLoading=()=>{const el=document.getElementById('ld');if(el)el.style.display='none';};
+  const timer=setTimeout(hideLoading,5000);
+  try{ await loadAll(); }catch(e){}
+  clearTimeout(timer);hideLoading();
   renderList();updateCount();
   checkBirthdays();
 })();
