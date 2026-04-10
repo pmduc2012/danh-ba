@@ -143,6 +143,18 @@ select.fi{cursor:pointer}
 .st-cho{background:rgba(251,191,36,.12);color:var(--warn);border:1px solid rgba(251,191,36,.25)}
 .st-giao{background:rgba(56,189,248,.12);color:var(--ac);border:1px solid rgba(56,189,248,.25)}
 .st-xong{background:rgba(52,211,153,.12);color:var(--ok);border:1px solid rgba(52,211,153,.25)}
+.st-tienmat{background:rgba(52,211,153,.12);color:var(--ok);border:1px solid rgba(52,211,153,.25)}
+.st-cktoan{background:rgba(167,139,250,.12);color:#a78bfa;border:1px solid rgba(167,139,250,.25)}
+.st-choct{background:rgba(251,146,60,.12);color:#fb923c;border:1px solid rgba(251,146,60,.25)}
+.status-row{display:flex;flex-wrap:wrap;gap:7px;margin-top:6px}
+.status-opt{padding:7px 13px;border-radius:99px;font-size:12px;font-weight:600;cursor:pointer;border:1.5px solid var(--bd);background:var(--s2);color:var(--mu);font-family:inherit;transition:all .15s}
+.status-opt:active{transform:scale(.95)}
+.status-opt.active-cho{background:rgba(251,191,36,.15);color:var(--warn);border-color:rgba(251,191,36,.4)}
+.status-opt.active-giao{background:rgba(56,189,248,.15);color:var(--ac);border-color:rgba(56,189,248,.4)}
+.status-opt.active-xong{background:rgba(52,211,153,.15);color:var(--ok);border-color:rgba(52,211,153,.4)}
+.status-opt.active-tienmat{background:rgba(52,211,153,.15);color:var(--ok);border-color:rgba(52,211,153,.4)}
+.status-opt.active-cktoan{background:rgba(167,139,250,.15);color:#a78bfa;border-color:rgba(167,139,250,.4)}
+.status-opt.active-choct{background:rgba(251,146,60,.15);color:#fb923c;border-color:rgba(251,146,60,.4)}
 .oh-acts{display:flex;gap:6px;margin-top:8px;padding-top:8px;border-top:1px solid var(--bd)}
 
 /* STATS */
@@ -341,7 +353,6 @@ mark{background:rgba(56,189,248,.2);color:var(--ac);border-radius:3px;padding:0 
     <div id="order-detail-content"></div>
     <div class="modal-acts">
       <button class="btn-cancel" onclick="closeModal('order-detail-modal')">Đóng</button>
-      <button class="btn-ok" id="btn-order-status" onclick="cycleStatus()">Cập nhật trạng thái</button>
     </div>
   </div>
 </div>
@@ -433,9 +444,12 @@ function badge(orders){
   return`<span class="badge badge-new">Khách mới</span>`;
 }
 function statusLabel(s){
-  if(s==='giao')return`<span class="oh-status st-giao">🚚 Đang giao</span>`;
-  if(s==='xong')return`<span class="oh-status st-xong">✓ Hoàn thành</span>`;
-  return`<span class="oh-status st-cho">⏳ Chờ xử lý</span>`;
+  const map={
+    'cho':'⏳ Chờ xử lý','giao':'🚚 Đang giao','xong':'✓ Hoàn thành',
+    'tienmat':'💵 Tiền mặt','cktoan':'✅ Đã chuyển khoản','choct':'🔄 Chờ chuyển khoản'
+  };
+  const cls={'cho':'st-cho','giao':'st-giao','xong':'st-xong','tienmat':'st-tienmat','cktoan':'st-cktoan','choct':'st-choct'};
+  return`<span class="oh-status ${cls[s]||'st-cho'}">${map[s]||'⏳ Chờ xử lý'}</span>`;
 }
 
 // ── BIRTHDAYS ──
@@ -510,8 +524,13 @@ function clearSearch(){document.getElementById('srch-inp').value='';doSearch();}
 async function addCustomer(){
   const fb=document.getElementById('add-fb').value.trim();
   if(!fb){showToast('Vui lòng nhập tên Facebook','er');return;}
+  const phone=document.getElementById('add-phone').value.trim();
+  if(phone){
+    const dup=customers.find(c=>c.phone&&c.phone===phone);
+    if(dup){showToast('SĐT này đã có: '+dup.fb,'er');return;}
+  }
   const btn=document.getElementById('btn-add-cust');btn.disabled=true;btn.textContent='Đang lưu...';
-  const c={id:Date.now().toString(),fb,addr:document.getElementById('add-addr').value.trim(),phone:document.getElementById('add-phone').value.trim(),birthday:parseDateToISO(document.getElementById('add-bday').value.trim()),orders:0};
+  const c={id:Date.now().toString(),fb,addr:document.getElementById('add-addr').value.trim(),phone,birthday:parseDateToISO(document.getElementById('add-bday').value.trim()),orders:0};
   // Lưu local ngay lập tức (optimistic)
   customers.push(c);cSave();updateCount();renderList();
   ['add-fb','add-addr','add-phone','add-bday'].forEach(id=>document.getElementById(id).value='');
@@ -665,31 +684,39 @@ function openOrderDetail(id){
   const o=orders.find(x=>x.id===id);if(!o)return;
   detailOrderId=id;
   const c=customers.find(x=>x.id===o.customerId);
+  const statuses=[
+    {key:'cho',label:'⏳ Chờ xử lý'},
+    {key:'giao',label:'🚚 Đang giao'},
+    {key:'xong',label:'✓ Hoàn thành'},
+    {key:'choct',label:'🔄 Chờ CK'},
+    {key:'cktoan',label:'✅ Đã CK'},
+    {key:'tienmat',label:'💵 Tiền mặt'},
+  ];
   document.getElementById('order-detail-content').innerHTML=`
     <div style="margin-bottom:12px"><div class="fl">Khách hàng</div><div style="font-size:15px;font-weight:600;color:var(--ac)">${c?c.fb:'?'}</div></div>
     <div style="margin-bottom:12px"><div class="fl">Ngày mua</div><div style="font-size:15px">${o.date}</div></div>
     <div style="margin-bottom:12px"><div class="fl">Món đã mua</div><div style="font-size:14px;line-height:1.7">${o.items}</div></div>
     ${o.discount>0?`<div style="margin-bottom:8px"><div class="fl">Giảm giá</div><div style="color:var(--ok)">${fmt(o.discount)}</div></div>`:''}
-    <div style="margin-bottom:12px"><div class="fl">Tổng tiền</div><div style="font-size:18px;font-weight:600;color:var(--ac)">${fmt(o.total)}</div></div>
+    <div style="margin-bottom:14px"><div class="fl">Tổng tiền</div><div style="font-size:18px;font-weight:600;color:var(--ac)">${fmt(o.total)}</div></div>
     ${o.note?`<div style="margin-bottom:12px"><div class="fl">Ghi chú</div><div>${o.note}</div></div>`:''}
-    <div style="margin-bottom:4px"><div class="fl">Trạng thái</div>${statusLabel(o.status)}</div>
-    <div style="margin-top:14px;display:flex;gap:8px">
-      <button class="act del" style="flex:none;padding:8px 14px" onclick="delOrder('${o.id}')">Xoá đơn</button>
+    <div class="fl">Trạng thái — chọn để cập nhật</div>
+    <div class="status-row">
+      ${statuses.map(s=>`<button class="status-opt${o.status===s.key?' active-'+s.key:''}" onclick="setStatus('${s.key}')">${s.label}</button>`).join('')}
+    </div>
+    <div style="margin-top:14px">
+      <button class="act del" style="flex:none;padding:8px 14px;font-size:12px" onclick="delOrder('${o.id}')">Xoá đơn</button>
     </div>`;
   document.getElementById('order-detail-modal').classList.add('open');
 }
 
-async function cycleStatus(){
+async function setStatus(newStatus){
   const o=orders.find(x=>x.id===detailOrderId);if(!o)return;
-  const cycle=['cho','giao','xong'];
-  const next=cycle[(cycle.indexOf(o.status)+1)%cycle.length];
-  const updated={...o,status:next};
-  try{
-    await apiPost({action:'update',sheet:'DonHang',...updated});
-    const idx=orders.findIndex(x=>x.id===detailOrderId);
-    orders[idx]=updated;cSave();
-    openOrderDetail(detailOrderId);renderOrders();showToast('Đã cập nhật','ok');
-  }catch{showToast('Lỗi kết nối!','er');}
+  const updated={...o,status:newStatus};
+  const idx=orders.findIndex(x=>x.id===detailOrderId);
+  orders[idx]=updated;cSave();
+  openOrderDetail(detailOrderId);renderOrders();
+  showToast('Đã cập nhật trạng thái','ok');
+  apiPost({action:'update',sheet:'DonHang',...updated}).catch(()=>showToast('Lưu server thất bại!','er'));
 }
 
 async function delOrder(id){
