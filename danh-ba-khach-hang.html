@@ -204,6 +204,18 @@ select.fi{cursor:pointer}
 .sort-opt{padding:6px 14px;border-radius:99px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid var(--bd);background:var(--s2);color:var(--mu);font-family:inherit;transition:all .15s}
 .sort-opt.active{background:var(--ac2);color:#fff;border-color:var(--ac2)}
 
+.filter-bar{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+.filter-bar::-webkit-scrollbar{display:none}
+.filter-opt{padding:5px 12px;border-radius:99px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid var(--bd);background:var(--s2);color:var(--mu);font-family:inherit;white-space:nowrap;transition:all .15s;flex-shrink:0}
+.filter-opt.active{background:var(--ac2);color:#fff;border-color:var(--ac2)}
+.day-group-hdr{display:flex;align-items:center;justify-content:space-between;padding:6px 2px;margin:14px 0 8px;border-bottom:1px solid var(--bd)}
+.day-group-hdr:first-child{margin-top:0}
+.day-label{font-size:12px;font-weight:600;color:var(--mu)}
+.day-label.today{color:var(--ac)}
+.day-label.yesterday{color:var(--warn)}
+.day-total{font-size:12px;font-weight:600;color:var(--ok)}
+.day-count{font-size:11px;color:var(--mu);margin-left:6px}
+
 /* BIRTHDAY INPUT AUTO-FORMAT */
 .bday-banner{background:linear-gradient(135deg,rgba(167,139,250,.15),rgba(56,189,248,.1));border:1px solid rgba(167,139,250,.25);border-radius:12px;padding:12px 14px;margin-bottom:12px;display:flex;align-items:center;gap:10px}
 .bday-banner p{font-size:13px;flex:1}
@@ -267,7 +279,20 @@ mark{background:rgba(56,189,248,.2);color:var(--ac);border-radius:3px;padding:0 
 
     <!-- ORDERS -->
     <div class="page" id="page-orders">
-      <div class="sec-title" id="orders-label">Đơn hàng gần đây</div>
+      <div class="srch-box" style="margin-bottom:10px">
+        <svg class="srch-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="text" id="order-srch" placeholder="Tìm tên khách..." oninput="renderOrders()" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+      </div>
+      <div class="filter-bar" id="order-filter-bar">
+        <button class="filter-opt active" data-f="all" onclick="setOrderFilter('all')">Tất cả</button>
+        <button class="filter-opt" data-f="cho" onclick="setOrderFilter('cho')">⏳ Chờ</button>
+        <button class="filter-opt" data-f="giao" onclick="setOrderFilter('giao')">🚚 Giao</button>
+        <button class="filter-opt" data-f="choct" onclick="setOrderFilter('choct')">🔄 Chờ CK</button>
+        <button class="filter-opt" data-f="cktoan" onclick="setOrderFilter('cktoan')">✅ Đã CK</button>
+        <button class="filter-opt" data-f="tienmat" onclick="setOrderFilter('tienmat')">💵 TM</button>
+        <button class="filter-opt" data-f="xong" onclick="setOrderFilter('xong')">✓ Xong</button>
+      </div>
+      <div class="sec-title" id="orders-label" style="margin-top:10px">Đơn hàng</div>
       <div id="orders-res"></div>
     </div>
 
@@ -689,29 +714,84 @@ async function saveOrder(){
   }catch{showToast('Lỗi kết nối!','er');btn.disabled=false;btn.textContent='Tạo đơn';}
 }
 
+// ── ORDER FILTER ──
+let orderFilter='all';
+function setOrderFilter(f){
+  orderFilter=f;
+  document.querySelectorAll('.filter-opt').forEach(b=>b.classList.toggle('active',b.dataset.f===f));
+  renderOrders();
+}
+
 // ── ORDER HISTORY ──
 function renderOrders(filterCustId){
-  let data=filterCustId?orders.filter(o=>o.customerId===filterCustId):[...orders];
-  data=data.slice().reverse();
-  document.getElementById('orders-label').textContent=filterCustId?'Lịch sử đơn':'Tất cả đơn hàng ('+data.length+')';
-  const el=document.getElementById('orders-res');
-  if(!data.length){el.innerHTML=emptyHTML('Chưa có đơn hàng','Tạo đơn từ trang danh sách khách');return;}
-  el.innerHTML=data.map(o=>{
+  const srchEl=document.getElementById('order-srch');
+  const q=srchEl?srchEl.value.trim().toLowerCase():'';
+  let data=[...orders];
+
+  // Lọc theo khách cụ thể nếu có
+  if(filterCustId) data=data.filter(o=>o.customerId===filterCustId);
+
+  // Lọc theo search
+  if(q) data=data.filter(o=>{
     const c=customers.find(x=>x.id===o.customerId);
-    return`<div class="ohcard">
-      <div class="oh-top">
-        <span class="oh-date">${c?c.fb:'?'} · ${o.date}</span>
-        <span class="oh-total">${fmt(o.total)}</span>
-      </div>
-      <div class="oh-items">${o.items}</div>
-      ${o.discount>0?`<div style="font-size:11px;color:var(--ok);margin-bottom:6px">Giảm: ${fmt(o.discount)}</div>`:''}
-      ${o.note?`<div style="font-size:12px;color:var(--mu);margin-bottom:6px">📝 ${o.note}</div>`:''}
-      <div style="display:flex;align-items:center;justify-content:space-between">
-        ${statusLabel(o.status)}
-        <button class="act" style="flex:none;padding:5px 12px;font-size:12px" onclick="openOrderDetail('${o.id}')">Chi tiết</button>
-      </div>
+    return c&&c.fb.toLowerCase().includes(q);
+  });
+
+  // Lọc theo trạng thái
+  if(orderFilter!=='all') data=data.filter(o=>o.status===orderFilter);
+
+  // Sắp xếp mới nhất trước
+  data.sort((a,b)=>String(b.date).localeCompare(String(a.date))||Number(b.id)-Number(a.id));
+
+  const totalFiltered=data.reduce((s,o)=>s+o.total,0);
+  const labelEl=document.getElementById('orders-label');
+  labelEl.textContent=`${data.length} đơn · Tổng: ${fmt(totalFiltered)}`;
+
+  const el=document.getElementById('orders-res');
+  if(!data.length){el.innerHTML=emptyHTML('Không có đơn nào','Thử thay đổi bộ lọc hoặc từ khoá');return;}
+
+  // Nhóm theo ngày
+  const todayS=todayStr();
+  const yesterdayS=new Date(Date.now()-86400000).toISOString().slice(0,10);
+  const groups={};
+  data.forEach(o=>{
+    const d=String(o.date)||'';
+    if(!groups[d])groups[d]=[];
+    groups[d].push(o);
+  });
+
+  let html='';
+  Object.keys(groups).sort((a,b)=>b.localeCompare(a)).forEach(date=>{
+    const dayOrders=groups[date];
+    const dayTotal=dayOrders.reduce((s,o)=>s+o.total,0);
+    const [y,m,d]=date.split('-');
+    const displayDate=date===todayS?'Hôm nay':date===yesterdayS?'Hôm qua':`${d}/${m}/${y}`;
+    const cls=date===todayS?'today':date===yesterdayS?'yesterday':'';
+    html+=`<div class="day-group-hdr">
+      <span class="day-label ${cls}">${displayDate}</span>
+      <span style="display:flex;align-items:center;gap:4px">
+        <span class="day-count">${dayOrders.length} đơn</span>
+        <span class="day-total">${fmt(dayTotal)}</span>
+      </span>
     </div>`;
-  }).join('');
+    dayOrders.forEach(o=>{
+      const c=customers.find(x=>x.id===o.customerId);
+      html+=`<div class="ohcard">
+        <div class="oh-top">
+          <span class="oh-date" style="font-weight:600">${c?c.fb:'?'}</span>
+          <span class="oh-total">${fmt(o.total)}</span>
+        </div>
+        <div class="oh-items">${o.items}</div>
+        ${o.discount>0?`<div style="font-size:11px;color:var(--ok);margin-bottom:5px">Giảm: ${fmt(o.discount)}</div>`:''}
+        ${o.note?`<div style="font-size:12px;color:var(--mu);margin-bottom:5px">📝 ${o.note}</div>`:''}
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:6px">
+          ${statusLabel(o.status)}
+          <button class="act" style="flex:none;padding:5px 12px;font-size:12px" onclick="openOrderDetail('${o.id}')">Chi tiết</button>
+        </div>
+      </div>`;
+    });
+  });
+  el.innerHTML=html;
 }
 
 function openOrderDetail(id){
