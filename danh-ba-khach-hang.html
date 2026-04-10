@@ -195,7 +195,16 @@ select.fi{cursor:pointer}
 .mm-price{font-size:12px;color:var(--mu)}
 .mm-del{background:none;border:none;color:var(--er);cursor:pointer;padding:4px;opacity:.6}
 
-/* BIRTHDAY BANNER */
+.card-info-compact{display:flex;flex-direction:column;gap:4px;margin:8px 0 10px}
+.ci-row{display:flex;align-items:flex-start;gap:7px;font-size:13px}
+.ci-icon{font-size:12px;flex-shrink:0;margin-top:1px;opacity:.8}
+.ci-val{color:var(--tx);flex:1;line-height:1.4}
+.act.maps{color:#34d399;border-color:rgba(52,211,153,.25);background:rgba(52,211,153,.08)}
+.sort-bar{display:flex;gap:7px;margin-bottom:12px}
+.sort-opt{padding:6px 14px;border-radius:99px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid var(--bd);background:var(--s2);color:var(--mu);font-family:inherit;transition:all .15s}
+.sort-opt.active{background:var(--ac2);color:#fff;border-color:var(--ac2)}
+
+/* BIRTHDAY INPUT AUTO-FORMAT */
 .bday-banner{background:linear-gradient(135deg,rgba(167,139,250,.15),rgba(56,189,248,.1));border:1px solid rgba(167,139,250,.25);border-radius:12px;padding:12px 14px;margin-bottom:12px;display:flex;align-items:center;gap:10px}
 .bday-banner p{font-size:13px;flex:1}
 .bday-banner strong{color:#a78bfa}
@@ -241,13 +250,17 @@ mark{background:rgba(56,189,248,.2);color:var(--ac);border-radius:3px;padding:0 
         <div class="fg"><label class="fl">Tên Facebook *</label><input class="fi" type="text" id="add-fb" placeholder="VD: Nguyễn Văn A" autocomplete="off"></div>
         <div class="fg"><label class="fl">Địa Chỉ</label><input class="fi" type="text" id="add-addr" placeholder="VD: 123 Lê Duẩn, Đông Hà"></div>
         <div class="fg"><label class="fl">Số Điện Thoại</label><input class="fi" type="tel" id="add-phone" placeholder="VD: 0901234567"></div>
-        <div class="fg"><label class="fl">Ngày Sinh Nhật</label><input class="fi" type="text" id="add-bday" placeholder="VD: 15/08/1990" inputmode="numeric" maxlength="10"></div>
+        <div class="fg"><label class="fl">Ngày Sinh Nhật</label><input class="fi" type="text" id="add-bday" placeholder="VD: 15/08/1990" inputmode="numeric" maxlength="10" oninput="bdayInput(event)"></div>
       </div>
       <button class="btn-main" id="btn-add-cust" onclick="addCustomer()">Lưu Khách Hàng</button>
     </div>
 
     <!-- LIST -->
     <div class="page" id="page-list">
+      <div class="sort-bar">
+        <button class="sort-opt active" id="sort-recent" onclick="setSort('recent')">Gần đây</button>
+        <button class="sort-opt" id="sort-az" onclick="setSort('az')">A → Z</button>
+      </div>
       <div class="sec-title" id="list-label">Tất cả</div>
       <div id="list-res"></div>
     </div>
@@ -290,7 +303,7 @@ mark{background:rgba(56,189,248,.2);color:var(--ac);border-radius:3px;padding:0 
     <div class="fg"><label class="fl">Tên Facebook *</label><input class="fi" type="text" id="edit-fb" autocomplete="off"></div>
     <div class="fg"><label class="fl">Địa Chỉ</label><input class="fi" type="text" id="edit-addr"></div>
     <div class="fg"><label class="fl">Số Điện Thoại</label><input class="fi" type="tel" id="edit-phone"></div>
-    <div class="fg"><label class="fl">Ngày Sinh Nhật</label><input class="fi" type="text" id="edit-bday" placeholder="VD: 15/08/1990" inputmode="numeric" maxlength="10"></div>
+    <div class="fg"><label class="fl">Ngày Sinh Nhật</label><input class="fi" type="text" id="edit-bday" placeholder="VD: 15/08/1990" inputmode="numeric" maxlength="10" oninput="bdayInput(event)"></div>
     <div class="modal-acts">
       <button class="btn-cancel" onclick="closeModal('edit-modal')">Huỷ</button>
       <button class="btn-ok" id="btn-edit-ok" onclick="saveEdit()">Lưu</button>
@@ -388,13 +401,20 @@ async function apiPost(body){
 }
 
 // ── LOAD ──
+function fixPhone(p){
+  if(!p)return'';
+  const s=String(p).replace(/\.0*$/,'').replace(/\s/g,'');
+  // Nếu là số thuần 9 chữ số (mất số 0 đầu do Sheets) thì thêm lại
+  if(/^\d{9}$/.test(s))return'0'+s;
+  return s;
+}
 async function loadAll(){
   try{
     const r=await jsonp(API+'?action=getAll');
     if(r&&r.ok){
-      customers=r.customers||[];
-      menu=r.menu.length?r.menu:menu;
-      orders=r.orders||[];
+      customers=(r.customers||[]).map(c=>({...c,phone:fixPhone(c.phone),id:String(c.id),orders:Number(c.orders)||0}));
+      menu=r.menu&&r.menu.length?r.menu:menu;
+      orders=(r.orders||[]).map(o=>({...o,id:String(o.id),customerId:String(o.customerId)}));
       cSave();
       document.getElementById('offline-bar').classList.remove('show');
       return true;
@@ -423,9 +443,20 @@ async function syncNow(){
 // ── HELPERS ──
 function fmtDate(bd){
   if(!bd)return'';
-  // Nếu dạng YYYY-MM-DD hoặc dd/mm/yyyy đều xử lý được
-  if(bd.includes('-')){const[y,m,d]=bd.split('-');return`${d}/${m}/${y}`;}
-  return bd; // đã dạng dd/mm/yyyy
+  const s=String(bd);
+  // Raw JS Date string từ Google Sheets (VD: "Sat Aug 15 1970 00:00:00 GMT+0700")
+  if(s.includes('GMT')||s.includes('00:00:00')){
+    const d=new Date(s);
+    if(!isNaN(d)){
+      const day=String(d.getDate()).padStart(2,'0');
+      const mon=String(d.getMonth()+1).padStart(2,'0');
+      return`${day}/${mon}/${d.getFullYear()}`;
+    }
+  }
+  // YYYY-MM-DD
+  if(/^\d{4}-\d{2}-\d{2}$/.test(s)){const[y,m,d]=s.split('-');return`${d}/${m}/${y}`;}
+  // Đã là dd/mm/yyyy
+  return s;
 }
 function parseDateToISO(bd){
   if(!bd)return'';
@@ -479,7 +510,7 @@ function dayDiff(today,bd){
 
 // ── CUSTOMER CARD ──
 function custCard(c,q,showActs){
-  const cnt=customers.findIndex(x=>x.id===c.id);
+  const mapsUrl=c.addr?`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(c.addr)}`:'';
   return`<div class="card">
     <div class="card-hdr">
       <div class="av ${avCls(c.fb)}">${initials(c.fb)}</div>
@@ -487,21 +518,17 @@ function custCard(c,q,showActs){
         <div class="card-name">${hlText(c.fb,q)}</div>
         <div class="badges">${badge(c.orders||0)}</div>
       </div>
+      <span class="order-count" style="flex-shrink:0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:11px;height:11px"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>${c.orders||0}</span>
     </div>
-    <div class="card-body">
-      <div class="info-row"><svg class="ii" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-        <span class="iv${c.addr?'':' empty'}">${c.addr?hlText(c.addr,q):'Chưa có địa chỉ'}</span></div>
-      <div class="info-row"><svg class="ii" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.72A2 2 0 012 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.91a16 16 0 006.16 6.16l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
-        <span class="iv${c.phone?'':' empty'}">${c.phone?hlText(c.phone,q):'Chưa có SĐT'}</span></div>
-      ${c.birthday?`<div class="info-row"><svg class="ii" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M12 6v4M8 10h8"/></svg>
-        <span class="iv">${fmtDate(c.birthday)}</span></div>`:''}
-    </div>
-    <div class="card-meta">
-      <span class="order-count"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>${c.orders||0} đơn</span>
+    <div class="card-info-compact">
+      ${c.addr?`<div class="ci-row"><span class="ci-icon">📍</span><span class="ci-val">${hlText(c.addr,q)}</span></div>`:''}
+      ${c.phone?`<div class="ci-row"><span class="ci-icon">📞</span><span class="ci-val">${hlText(c.phone,q)}</span></div>`:''}
+      ${c.birthday?`<div class="ci-row"><span class="ci-icon">🎂</span><span class="ci-val">${fmtDate(c.birthday)}</span></div>`:''}
     </div>
     <div class="card-acts">
       ${c.phone?`<a class="act call" href="tel:${c.phone}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.72A2 2 0 012 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.91a16 16 0 006.16 6.16l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>Gọi</a>`:''}
-      <button class="act order" onclick="openOrder('${c.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>Đặt hàng</button>
+      ${mapsUrl?`<a class="act maps" href="${mapsUrl}" target="_blank">🗺 Maps</a>`:''}
+      <button class="act order" onclick="openOrder('${c.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>Đặt</button>
       ${showActs?`<button class="act edit" onclick="openEdit('${c.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>Sửa</button>
       <button class="act del" onclick="delCustomer('${c.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg>Xoá</button>`:''}
     </div>
@@ -817,9 +844,28 @@ function renderStats(){
     </div>`;
 }
 
+// ── SORT ──
+let currentSort='recent';
+function setSort(s){
+  currentSort=s;
+  document.getElementById('sort-recent').classList.toggle('active',s==='recent');
+  document.getElementById('sort-az').classList.toggle('active',s==='az');
+  renderList();
+}
+
+// ── BIRTHDAY AUTO-FORMAT ──
+function bdayInput(e){
+  let v=e.target.value.replace(/\D/g,'');
+  if(v.length>2)v=v.slice(0,2)+'/'+v.slice(2);
+  if(v.length>5)v=v.slice(0,5)+'/'+v.slice(5,9);
+  e.target.value=v;
+}
+
 // ── LIST ──
 function renderList(){
-  const data=[...customers].reverse();
+  let data=[...customers];
+  if(currentSort==='az') data.sort((a,b)=>a.fb.localeCompare(b.fb,'vi'));
+  else data.reverse();
   document.getElementById('list-label').textContent='Tất cả — '+data.length+' khách hàng';
   const el=document.getElementById('list-res');
   el.innerHTML=data.length?data.map(c=>custCard(c,'',true)).join(''):emptyHTML('Chưa có khách hàng','Thêm khách hàng ở tab Thêm KH');
