@@ -776,17 +776,27 @@ function renderOrders(filterCustId){
     </div>`;
     dayOrders.forEach(o=>{
       const c=customers.find(x=>x.id===o.customerId);
+      const mapsUrl=c&&c.addr?`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(c.addr)}`:'';
       html+=`<div class="ohcard">
         <div class="oh-top">
           <span class="oh-date" style="font-weight:600">${c?c.fb:'?'}</span>
           <span class="oh-total">${fmt(o.total)}</span>
         </div>
+        ${c&&c.addr?`<div style="display:flex;align-items:center;gap:6px;margin:4px 0 2px;font-size:12px;color:var(--mu)">
+          <span>📍</span><span style="flex:1">${c.addr}</span>
+        </div>`:''}
+        ${c&&c.phone?`<div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;font-size:12px;color:var(--mu)">
+          <span>📞</span><span>${c.phone}</span>
+        </div>`:''}
         <div class="oh-items">${o.items}</div>
         ${o.discount>0?`<div style="font-size:11px;color:var(--ok);margin-bottom:5px">Giảm: ${fmt(o.discount)}</div>`:''}
         ${o.note?`<div style="font-size:12px;color:var(--mu);margin-bottom:5px">📝 ${o.note}</div>`:''}
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:6px">
+        <div style="display:flex;align-items:center;gap:6px;margin-top:8px;flex-wrap:wrap">
           ${statusLabel(o.status)}
-          <button class="act" style="flex:none;padding:5px 12px;font-size:12px" onclick="openOrderDetail('${o.id}')">Chi tiết</button>
+          <div style="flex:1"></div>
+          ${c&&c.phone?`<a class="act call" href="tel:${c.phone}" style="flex:none;padding:5px 11px;font-size:12px">📞 Gọi</a>`:''}
+          ${mapsUrl?`<a class="act maps" href="${mapsUrl}" target="_blank" style="flex:none;padding:5px 11px;font-size:12px">🗺 Maps</a>`:''}
+          <button class="act" style="flex:none;padding:5px 11px;font-size:12px" onclick="openOrderDetail('${o.id}')">Chi tiết</button>
         </div>
       </div>`;
     });
