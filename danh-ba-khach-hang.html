@@ -827,18 +827,15 @@ function changeQty(id, d) {
   calcTotal();
 }
 function calcTotal() {
-  let sub = 0, rauQty = 0;
+  let sub = 0;
   menu.forEach(function(m) {
-    const q = orderQty[m.id] || 0;
-    sub += m.price * q;
-    if (m.cat === 'Rau câu') rauQty += q;
+    sub += m.price * (orderQty[m.id] || 0);
   });
-  const rauDisc = Math.floor(rauQty / 2) * 5000;
   const manDisc = (Number(document.getElementById('os-discount').value) || 0) * 1000;
-  const total = Math.max(0, sub - rauDisc - manDisc);
+  const total = Math.max(0, sub - manDisc);
   document.getElementById('os-sub').textContent = fmtMoney(sub);
   document.getElementById('os-total').textContent = fmtMoney(total);
-  return { sub: sub, rauDisc: rauDisc, manDisc: manDisc, total: total };
+  return { sub: sub, rauDisc: 0, manDisc: manDisc, total: total };
 }
 async function saveOrder() {
   const picked = Object.keys(orderQty).filter(function(id) { return orderQty[id] > 0; });
