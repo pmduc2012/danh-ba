@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Danh bạ KH Bánh nhà Thu">
 <meta name="theme-color" content="#0f172a">
-<title>Bánh nhà Thu</title>
+<title>Danh bạ KH Bánh nhà Thu</title>
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -412,7 +412,7 @@ function jsonp(url){
   return new Promise((res,rej)=>{
     const cb='cb_'+Date.now()+'_'+Math.random().toString(36).slice(2);
     const sc=document.createElement('script');
-    const tm=setTimeout(()=>{cleanup();rej(new Error('timeout'));},8000);
+    const tm=setTimeout(()=>{cleanup();rej(new Error('timeout'));},6000);
     function cleanup(){clearTimeout(tm);delete window[cb];if(sc.parentNode)sc.parentNode.removeChild(sc);}
     window[cb]=function(d){cleanup();res(d);};
     sc.onerror=()=>{cleanup();rej(new Error('net'));};
@@ -452,15 +452,15 @@ async function loadAll(){
 
 (async()=>{
   cLoad();
-  // Hiện dữ liệu cache ngay, ẩn loading sau 400ms nếu có cache
-  if(customers.length){
-    setTimeout(()=>{document.getElementById('ld').style.display='none';},400);
-  }
+  // Ẩn loading ngay nếu có cache
+  const ldEl=document.getElementById('ld');
+  if(customers.length){ldEl.style.display='none';}
   renderList();updateCount();
-  const hideLoading=()=>{const el=document.getElementById('ld');if(el)el.style.display='none';};
-  const timer=setTimeout(hideLoading,5000);
-  try{ await loadAll(); }catch(e){}
-  clearTimeout(timer);hideLoading();
+  // Timeout tối đa 3 giây rồi tự ẩn
+  const hideLD=()=>{if(ldEl)ldEl.style.display='none';};
+  const timer=setTimeout(hideLD,3000);
+  try{await loadAll();}catch(e){console.log(e);}
+  clearTimeout(timer);hideLD();
   renderList();updateCount();
   checkBirthdays();
 })();
@@ -807,12 +807,66 @@ function renderOrders(filterCustId){
           <div style="flex:1"></div>
           ${c&&c.phone?`<a class="act call" href="tel:${c.phone}" style="flex:none;padding:5px 11px;font-size:12px">📞 Gọi</a>`:''}
           ${mapsUrl?`<a class="act maps" href="${mapsUrl}" target="_blank" style="flex:none;padding:5px 11px;font-size:12px">🗺 Maps</a>`:''}
+          <button class="act" style="flex:none;padding:5px 11px;font-size:12px;color:#0068ff;border-color:rgba(0,104,255,.25);background:rgba(0,104,255,.08)" onclick="shareZalo('${o.id}')">📤 Zalo</button>
           <button class="act" style="flex:none;padding:5px 11px;font-size:12px" onclick="openOrderDetail('${o.id}')">Chi tiết</button>
         </div>
       </div>`;
     });
   });
   el.innerHTML=html;
+}
+
+function shareZalo(orderId){
+  const o=orders.find(x=>x.id===orderId);if(!o)return;
+  const c=customers.find(x=>x.id===o.customerId);
+  const text=
+`🧁 ĐƠN HÀNG BÁNH NHÀ THU
+👤 ${c?c.fb:'?'}
+📍 ${c&&c.addr?c.addr:'(chưa có địa chỉ)'}
+📞 ${c&&c.phone?c.phone:'(chưa có SĐT)'}
+🛍 ${o.items}
+💰 Tổng: ${fmt(o.total)}${o.discount>0?' (Giảm: '+fmt(o.discount)+')':''}${o.note?'\n📝 '+o.note:''}`;
+
+  // Thử Web Share API trước (iOS Safari hỗ trợ, mở được Zalo)
+  if(navigator.share){
+    navigator.share({text}).catch(()=>{});
+  } else {
+    // Fallback: copy vào clipboard
+    navigator.clipboard&&navigator.clipboard.writeText(text).then(()=>{
+      showToast('Đã copy! Dán vào Zalo để gửi','ok');
+    }).catch(()=>{
+      // Fallback cuối: hiện modal để copy tay
+      showShareModal(text);
+    });
+  }
+}
+
+function showShareModal(text){
+  let modal=document.getElementById('share-modal');
+  if(!modal){
+    modal=document.createElement('div');
+    modal.id='share-modal';
+    modal.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.75);display:flex;align-items:flex-end;justify-content:center;z-index:200;padding-bottom:var(--sb)';
+    modal.innerHTML=`<div style="background:var(--s1);border-radius:20px 20px 0 0;padding:18px 16px 24px;width:100%;max-width:540px;border-top:1px solid var(--bd)">
+      <div style="font-size:15px;font-weight:600;text-align:center;margin-bottom:14px">Thông tin đơn — Sao chép gửi Zalo</div>
+      <textarea id="share-text" style="width:100%;height:160px;background:var(--s2);border:1px solid var(--bd);border-radius:10px;padding:12px;font-family:inherit;font-size:13px;color:var(--tx);resize:none;outline:none;line-height:1.6"></textarea>
+      <div style="display:flex;gap:10px;margin-top:12px">
+        <button onclick="document.getElementById('share-modal').remove()" style="flex:1;padding:12px;background:var(--s2);border:1px solid var(--bd);border-radius:11px;font-family:inherit;font-size:14px;color:var(--mu);cursor:pointer">Đóng</button>
+        <button onclick="copyShareText()" style="flex:1;padding:12px;background:var(--ac2);border:none;border-radius:11px;font-family:inherit;font-size:14px;font-weight:600;color:#fff;cursor:pointer">📋 Copy</button>
+      </div>
+    </div>`;
+    document.body.appendChild(modal);
+    modal.addEventListener('click',e=>{if(e.target===modal)modal.remove();});
+  }
+  document.getElementById('share-text').value=text;
+}
+
+function copyShareText(){
+  const ta=document.getElementById('share-text');
+  ta.select();
+  document.execCommand('copy');
+  showToast('Đã copy! Dán vào Zalo để gửi','ok');
+  document.getElementById('share-modal').remove();
 }
 
 function openOrderDetail(id){
