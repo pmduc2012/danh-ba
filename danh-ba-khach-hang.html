@@ -452,17 +452,15 @@ async function loadAll(){
 
 (async()=>{
   cLoad();
-  // Ẩn loading ngay nếu có cache
-  const ldEl=document.getElementById('ld');
-  if(customers.length){ldEl.style.display='none';}
   renderList();updateCount();
-  // Timeout tối đa 3 giây rồi tự ẩn
-  const hideLD=()=>{if(ldEl)ldEl.style.display='none';};
-  const timer=setTimeout(hideLD,3000);
-  try{await loadAll();}catch(e){console.log(e);}
-  clearTimeout(timer);hideLD();
-  renderList();updateCount();
+  // Ẩn loading NGAY, không chờ server
+  document.getElementById('ld').style.display='none';
   checkBirthdays();
+  // Sync ngầm sau 100ms
+  setTimeout(async()=>{
+    try{await loadAll();}catch(e){}
+    renderList();updateCount();
+  },100);
 })();
 
 async function syncNow(){
