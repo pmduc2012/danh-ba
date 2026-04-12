@@ -504,7 +504,7 @@ function parseDate(d){
   return s;
 }
 function parseDateToISO(bd){return parseDate(bd);}
-const p=n.trim().split(/\s+/);return p.length===1?p[0][0].toUpperCase():(p[0][0]+p[p.length-1][0]).toUpperCase();}
+function initials(n){const p=n.trim().split(/\s+/);return p.length===1?p[0][0].toUpperCase():(p[0][0]+p[p.length-1][0]).toUpperCase();}
 function avCls(n){let h=0;for(let c of n)h=(h*31+c.charCodeAt(0))&0xffff;return'av-'+(h%6);}
 function hlText(t,q){if(!q||!t)return t||'';return t.replace(new RegExp('('+q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi'),'<mark>$1</mark>');}
 function updateCount(){document.getElementById('count-chip').textContent=customers.length+' khách';}
