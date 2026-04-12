@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Danh bạ KH Bánh nhà Thu">
 <meta name="theme-color" content="#0f172a">
-<title>Danh bạ KH Bánh nhà Thu</title>
+<title>Bánh nhà Thu</title>
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -399,7 +399,7 @@ mark{background:rgba(56,189,248,.2);color:var(--ac);border-radius:3px;padding:0 
 
 <script>
 const API='https://script.google.com/macros/s/AKfycbydXy5h7Bn-s4hFVFVFEoufJJcrLrVHwO7CgKHmBMyTVjgQDTGZ371xPt-2PnJ_g2jv/exec';
-const CK='danh_ba_v4';
+const CK='danh_ba_v5';
 let customers=[],menu=[],orders=[];
 let editId=null,orderCustId=null,orderQty={},detailOrderId=null;
 
@@ -437,9 +437,9 @@ async function loadAll(){
   try{
     const r=await jsonp(API+'?action=getAll');
     if(r&&r.ok){
-      customers=(r.customers||[]).map(c=>({...c,phone:fixPhone(c.phone),id:String(c.id),orders:Number(c.orders)||0}));
+      customers=(r.customers||[]).map(c=>({...c,phone:fixPhone(c.phone),id:String(c.id),orders:Number(c.orders)||0,birthday:parseDate(c.birthday)}));
       menu=r.menu&&r.menu.length?r.menu:menu;
-      orders=(r.orders||[]).map(o=>({...o,id:String(o.id),customerId:String(o.customerId)}));
+      orders=(r.orders||[]).map(o=>({...o,id:String(o.id),customerId:String(o.customerId),date:parseDate(o.date)}));
       cSave();
       document.getElementById('offline-bar').classList.remove('show');
       return true;
@@ -490,12 +490,23 @@ function fmtDate(bd){
   // Đã là dd/mm/yyyy
   return s;
 }
-function parseDateToISO(bd){
-  if(!bd)return'';
-  if(bd.includes('/')){const[d,m,y]=bd.split('/');return`${y}-${m.padStart(2,'0')}-${d.padStart(2,'0')}`;}
-  return bd;
+function parseDate(d){
+  if(!d)return'';
+  const s=String(d);
+  if(/^\d{4}-\d{2}-\d{2}$/.test(s))return s; // YYYY-MM-DD — chuẩn
+  if(/^\d{2}\/\d{2}\/\d{4}$/.test(s)){const[dd,mm,yyyy]=s.split('/');return`${yyyy}-${mm}-${dd}`;} // dd/mm/yyyy
+  // Raw JS Date string từ Sheets
+  const dt=new Date(s);
+  if(!isNaN(dt)){
+    const y=dt.getFullYear();
+    const m=String(dt.getMonth()+1).padStart(2,'0');
+    const dd=String(dt.getDate()).padStart(2,'0');
+    return`${y}-${m}-${dd}`;
+  }
+  return s;
 }
-function initials(n){const p=n.trim().split(/\s+/);return p.length===1?p[0][0].toUpperCase():(p[0][0]+p[p.length-1][0]).toUpperCase();}
+function parseDateToISO(bd){return parseDate(bd);}
+const p=n.trim().split(/\s+/);return p.length===1?p[0][0].toUpperCase():(p[0][0]+p[p.length-1][0]).toUpperCase();}
 function avCls(n){let h=0;for(let c of n)h=(h*31+c.charCodeAt(0))&0xffff;return'av-'+(h%6);}
 function hlText(t,q){if(!q||!t)return t||'';return t.replace(new RegExp('('+q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi'),'<mark>$1</mark>');}
 function updateCount(){document.getElementById('count-chip').textContent=customers.length+' khách';}
