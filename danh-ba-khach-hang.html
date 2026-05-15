@@ -12,7 +12,7 @@
 <style>
 :root {
   --bg:#0f172a; --s1:#1e293b; --s2:#263347;
-  --bd:rgba(255,255,255,0.08); --bd2:rgba(255,255,255,0.14);
+  --bd:rgba(255,255,255,0.08);
   --ac:#38bdf8; --ac2:#0ea5e9;
   --tx:#f1f5f9; --mu:#94a3b8;
   --ok:#34d399; --er:#f87171; --warn:#fbbf24;
@@ -40,9 +40,9 @@ html,body{height:100%;overflow:hidden;background:var(--bg);font-family:'Be Vietn
 
 /* TABS */
 .tab-bar{display:flex;background:var(--bg);border-top:1px solid var(--bd);flex-shrink:0}
-.tab{flex:1;padding:8px 2px 10px;display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;color:var(--mu);font-family:inherit;cursor:pointer;font-size:10px;font-weight:500;transition:color .2s}
+.tab{flex:1;padding:9px 4px 11px;display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;color:var(--mu);font-family:inherit;cursor:pointer;font-size:11px;font-weight:500;transition:color .2s}
 .tab.active{color:var(--ac)}
-.tab svg{width:20px;height:20px;stroke-width:1.8}
+.tab svg{width:22px;height:22px;stroke-width:1.8}
 
 /* PAGES */
 .pages{flex:1;overflow:hidden;position:relative}
@@ -60,44 +60,36 @@ html,body{height:100%;overflow:hidden;background:var(--bg);font-family:'Be Vietn
 .srch-clr{position:absolute;right:9px;top:50%;transform:translateY(-50%);background:var(--s2);border:none;border-radius:50%;width:22px;height:22px;display:none;align-items:center;justify-content:center;cursor:pointer}
 .srch-clr svg{width:11px;height:11px;stroke:var(--mu)}
 
-/* SORT & FILTER BARS */
-.sort-bar,.filter-bar{display:flex;gap:6px;margin-bottom:10px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
-.sort-bar::-webkit-scrollbar,.filter-bar::-webkit-scrollbar{display:none}
-.sort-opt,.filter-opt{padding:5px 12px;border-radius:99px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid var(--bd);background:var(--s2);color:var(--mu);font-family:inherit;white-space:nowrap;flex-shrink:0;transition:all .15s}
-.sort-opt.active,.filter-opt.active{background:var(--ac2);color:#fff;border-color:var(--ac2)}
+/* SORT BAR */
+.sort-bar{display:flex;gap:6px;margin-bottom:10px}
+.sort-opt{padding:5px 14px;border-radius:99px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid var(--bd);background:var(--s2);color:var(--mu);font-family:inherit;white-space:nowrap;transition:all .15s}
+.sort-opt.active{background:var(--ac2);color:#fff;border-color:var(--ac2)}
 
 /* CARD */
 .card{background:var(--s1);border:1px solid var(--bd);border-radius:var(--r);padding:12px 14px;margin-bottom:10px;animation:fadeUp .18s ease}
 @keyframes fadeUp{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
 .card-hdr{display:flex;align-items:center;gap:10px;margin-bottom:8px}
-.av{width:38px;height:38px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600}
+.av{width:40px;height:40px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600}
 .av-0{background:rgba(56,189,248,.18);color:#38bdf8}
 .av-1{background:rgba(52,211,153,.18);color:#34d399}
 .av-2{background:rgba(251,191,36,.18);color:#fbbf24}
 .av-3{background:rgba(248,113,113,.18);color:#f87171}
 .av-4{background:rgba(167,139,250,.18);color:#a78bfa}
 .av-5{background:rgba(251,146,60,.18);color:#fb923c}
-.card-title{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
-.card-name{font-size:15px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.badge{font-size:10px;font-weight:600;padding:2px 7px;border-radius:99px;display:inline-block}
-.badge-new{background:rgba(148,163,184,.1);color:var(--mu);border:1px solid rgba(148,163,184,.2)}
-.badge-quen{background:rgba(56,189,248,.1);color:var(--ac);border:1px solid rgba(56,189,248,.2)}
-.badge-vip{background:rgba(251,191,36,.12);color:var(--warn);border:1px solid rgba(251,191,36,.25)}
-.order-pip{font-size:11px;font-weight:600;color:var(--warn);background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.2);padding:2px 8px;border-radius:99px;white-space:nowrap;flex-shrink:0}
-.card-info{display:flex;flex-direction:column;gap:4px;margin-bottom:10px}
+.card-name{font-size:15px;font-weight:600;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card-info{display:flex;flex-direction:column;gap:5px;margin-bottom:10px}
 .ci{display:flex;align-items:flex-start;gap:7px;font-size:13px;color:var(--tx)}
 .ci span{flex:1;line-height:1.4}
 .card-acts{display:flex;gap:6px;flex-wrap:wrap}
 
 /* ACTIONS */
-.act{padding:7px 10px;border-radius:9px;border:1px solid var(--bd);background:var(--s2);color:var(--mu);font-family:inherit;font-size:12px;cursor:pointer;display:inline-flex;align-items:center;gap:4px;text-decoration:none;-webkit-appearance:none;transition:transform .12s;white-space:nowrap}
+.act{padding:7px 11px;border-radius:9px;border:1px solid var(--bd);background:var(--s2);color:var(--mu);font-family:inherit;font-size:12px;cursor:pointer;display:inline-flex;align-items:center;gap:4px;text-decoration:none;-webkit-appearance:none;transition:transform .12s;white-space:nowrap}
 .act:active{transform:scale(.94)}
 .act.call{color:var(--ok);border-color:rgba(52,211,153,.25);background:rgba(52,211,153,.08)}
-.act.maps{color:#34d399;border-color:rgba(52,211,153,.25);background:rgba(52,211,153,.08)}
-.act.order{color:var(--ac);border-color:rgba(56,189,248,.25);background:rgba(56,189,248,.08)}
+.act.maps{color:var(--ok);border-color:rgba(52,211,153,.25);background:rgba(52,211,153,.08)}
+.act.zalo{color:#0068ff;border-color:rgba(0,104,255,.25);background:rgba(0,104,255,.08)}
 .act.edit{color:var(--mu)}
 .act.del{color:var(--er);border-color:rgba(248,113,113,.25);background:rgba(248,113,113,.08)}
-.act.zalo{color:#0068ff;border-color:rgba(0,104,255,.25);background:rgba(0,104,255,.08)}
 
 /* FORM */
 .fcard{background:var(--s1);border:1px solid var(--bd);border-radius:var(--r);padding:16px 14px;margin-bottom:12px}
@@ -107,99 +99,21 @@ html,body{height:100%;overflow:hidden;background:var(--bg);font-family:'Be Vietn
 .fi{width:100%;padding:11px 12px;background:var(--s2);border:1px solid var(--bd);border-radius:10px;font-family:inherit;font-size:15px;color:var(--tx);outline:none;-webkit-appearance:none;transition:border-color .2s}
 .fi::placeholder{color:var(--mu)}
 .fi:focus{border-color:var(--ac)}
-select.fi{cursor:pointer}
 .btn-main{width:100%;padding:13px;background:var(--ac2);border:none;border-radius:var(--r);font-family:inherit;font-size:15px;font-weight:600;color:#fff;cursor:pointer;-webkit-appearance:none}
 .btn-main:active{opacity:.85}
 .btn-main:disabled{opacity:.5}
-.btn-sec{width:100%;padding:12px;background:var(--s2);border:1px solid var(--bd);border-radius:var(--r);font-family:inherit;font-size:14px;color:var(--mu);cursor:pointer}
 
 /* EMPTY */
 .empty{text-align:center;padding:48px 20px;color:var(--mu)}
-.empty-icon{font-size:36px;opacity:.2;margin-bottom:10px}
+.empty-icon{font-size:36px;opacity:.25;margin-bottom:10px}
 .empty p{font-size:14px}
 .empty small{font-size:12px;opacity:.6;display:block;margin-top:3px}
 
-/* SECTION */
-.sec-title{font-size:12px;color:var(--mu);padding:0 2px}
-
-/* BIRTHDAY */
-.bday-banner{background:rgba(167,139,250,.12);border:1px solid rgba(167,139,250,.25);border-radius:11px;padding:10px 14px;margin-bottom:10px;font-size:13px}
-.bday-banner strong{color:#a78bfa}
-
-/* ORDER CARDS */
-.day-hdr{display:flex;align-items:center;justify-content:space-between;padding:5px 2px;margin:14px 0 8px;border-bottom:1px solid var(--bd)}
-.day-hdr:first-child{margin-top:0}
-.day-label{font-size:12px;font-weight:600;color:var(--mu)}
-.day-label.today{color:var(--ac)}
-.day-label.yesterday{color:var(--warn)}
-.day-meta{font-size:12px;color:var(--mu)}
-.day-total{color:var(--ok);font-weight:600}
-.ohcard{background:var(--s1);border:1px solid var(--bd);border-radius:12px;padding:12px 13px;margin-bottom:8px}
-.oh-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
-.oh-name{font-size:14px;font-weight:600}
-.oh-total{font-size:14px;font-weight:600;color:var(--ac)}
-.oh-info{font-size:12px;color:var(--mu);margin-bottom:3px}
-.oh-items{font-size:13px;color:var(--tx);margin:6px 0;line-height:1.5}
-.oh-disc{font-size:11px;color:var(--ok);margin-bottom:4px}
-.oh-note{font-size:12px;color:var(--mu);margin-bottom:4px}
-.oh-acts{display:flex;align-items:center;gap:6px;margin-top:8px;flex-wrap:wrap}
-
-/* STATUS BADGES */
-.status-badge{font-size:11px;font-weight:600;padding:3px 9px;border-radius:99px;display:inline-flex;align-items:center;gap:3px}
-.st-cho{background:rgba(251,191,36,.12);color:var(--warn);border:1px solid rgba(251,191,36,.25)}
-.st-giao{background:rgba(56,189,248,.12);color:var(--ac);border:1px solid rgba(56,189,248,.25)}
-.st-xong{background:rgba(52,211,153,.12);color:var(--ok);border:1px solid rgba(52,211,153,.25)}
-.st-tm{background:rgba(52,211,153,.12);color:var(--ok);border:1px solid rgba(52,211,153,.25)}
-.st-ck{background:rgba(167,139,250,.12);color:#a78bfa;border:1px solid rgba(167,139,250,.25)}
-.st-choct{background:rgba(251,146,60,.12);color:#fb923c;border:1px solid rgba(251,146,60,.25)}
-
-/* STATUS PICKER */
-.status-picker{display:flex;flex-wrap:wrap;gap:7px}
-.sp-btn{padding:7px 12px;border-radius:99px;font-size:12px;font-weight:600;cursor:pointer;border:1.5px solid var(--bd);background:var(--s2);color:var(--mu);font-family:inherit;transition:all .15s}
-.sp-btn.active{border-color:var(--ac2);background:rgba(14,165,233,.15);color:var(--ac)}
-
-/* MENU PICKER */
-.menu-cat{font-size:11px;font-weight:600;color:var(--mu);text-transform:uppercase;letter-spacing:.6px;margin:12px 0 7px;padding:0 2px}
-.menu-row{display:flex;align-items:center;gap:8px;padding:9px 11px;background:var(--s2);border-radius:9px;margin-bottom:5px;border:1.5px solid transparent;transition:border-color .15s}
-.menu-row.selected{border-color:var(--ac)}
-.mr-name{flex:1;font-size:13px}
-.mr-price{font-size:12px;color:var(--mu)}
-.qty-ctrl{display:flex;align-items:center;gap:5px}
-.qty-btn{width:24px;height:24px;border-radius:50%;border:1px solid var(--bd);background:var(--s1);font-size:16px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-family:inherit;transition:transform .1s}
-.qty-btn:active{transform:scale(.88)}
-.qty-btn.plus{color:var(--ok);border-color:rgba(52,211,153,.3);background:rgba(52,211,153,.08)}
-.qty-btn.minus{color:var(--er);border-color:rgba(248,113,113,.3);background:rgba(248,113,113,.08)}
-.qty-num{font-size:13px;font-weight:600;min-width:16px;text-align:center}
-.order-summary{background:var(--s2);border-radius:10px;padding:12px 13px;margin-top:10px}
-.os-row{display:flex;justify-content:space-between;align-items:center;font-size:13px;margin-bottom:6px}
-.os-row:last-child{margin-bottom:0;font-weight:600;font-size:15px;color:var(--ac)}
-.os-label{color:var(--mu)}
-.discount-input{width:70px;padding:4px 8px;background:var(--s1);border:1px solid var(--bd);border-radius:7px;font-family:inherit;font-size:13px;color:var(--tx);text-align:right;outline:none}
-
-/* MENU MGMT */
-.menu-mgmt-row{display:flex;align-items:center;padding:8px 10px;background:var(--s2);border-radius:8px;margin-bottom:5px}
-
-/* STATS */
-.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:4px}
-.stat-card{background:var(--s1);border:1px solid var(--bd);border-radius:12px;padding:13px}
-.stat-label{font-size:11px;color:var(--mu);margin-bottom:5px}
-.stat-val{font-size:20px;font-weight:600}
-.stat-sub{font-size:11px;color:var(--mu);margin-top:2px}
-.rank-row{display:flex;align-items:center;gap:8px;padding:9px 11px;background:var(--s1);border-radius:9px;margin-bottom:5px;border:1px solid var(--bd)}
-.rank-n{font-size:12px;font-weight:600;color:var(--mu);width:16px}
-.rank-name{flex:1;font-size:13px}
-.rank-val{font-size:12px;color:var(--ac);font-weight:500}
-
-/* ORDER DETAIL */
-.detail-row{display:flex;gap:12px;padding:8px 0;border-bottom:1px solid var(--bd);font-size:14px}
-.detail-row:last-of-type{border:none}
-.dr-label{color:var(--mu);min-width:55px;flex-shrink:0;font-size:12px;padding-top:1px}
-.dr-val{flex:1;line-height:1.5}
-.dr-val.ac{color:var(--ac)}
-.dr-val.ok{color:var(--ok)}
+/* SECTION LABEL */
+.sec-label{font-size:12px;color:var(--mu);margin-bottom:10px;padding:0 2px}
 
 /* TOAST */
-.toast{position:fixed;bottom:calc(60px + var(--sb) + 10px);left:50%;transform:translateX(-50%) translateY(12px);background:var(--s2);border:1px solid var(--bd);color:var(--tx);padding:9px 20px;border-radius:99px;font-size:13px;font-weight:500;pointer-events:none;opacity:0;transition:all .25s;white-space:nowrap;z-index:999}
+.toast{position:fixed;bottom:calc(62px + var(--sb) + 8px);left:50%;transform:translateX(-50%) translateY(12px);background:var(--s2);border:1px solid var(--bd);color:var(--tx);padding:9px 20px;border-radius:99px;font-size:13px;font-weight:500;pointer-events:none;opacity:0;transition:all .25s;white-space:nowrap;z-index:999}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 .toast.ok{color:var(--ok);border-color:rgba(52,211,153,.3)}
 .toast.er{color:var(--er);border-color:rgba(248,113,113,.3)}
@@ -207,20 +121,18 @@ select.fi{cursor:pointer}
 /* MODAL */
 .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.75);display:none;align-items:flex-end;justify-content:center;z-index:150;padding-bottom:var(--sb)}
 .modal-bg.open{display:flex}
-.modal{background:var(--s1);border-radius:20px 20px 0 0;padding:18px 14px 22px;width:100%;max-width:540px;border-top:1px solid var(--bd);max-height:88vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
-.modal::-webkit-scrollbar{width:3px}
-.modal::-webkit-scrollbar-thumb{background:var(--bd);border-radius:2px}
+.modal{background:var(--s1);border-radius:20px 20px 0 0;padding:18px 14px 22px;width:100%;max-width:540px;border-top:1px solid var(--bd)}
 .modal-title{font-size:16px;font-weight:600;text-align:center;margin-bottom:16px}
 .modal-acts{display:flex;gap:8px;margin-top:14px}
 .btn-cancel{flex:1;padding:12px;background:var(--s2);border:1px solid var(--bd);border-radius:11px;font-family:inherit;font-size:14px;color:var(--mu);cursor:pointer}
 .btn-ok{flex:1;padding:12px;background:var(--ac2);border:none;border-radius:11px;font-family:inherit;font-size:14px;font-weight:600;color:#fff;cursor:pointer}
-.btn-ok:disabled{opacity:.5}
 
 mark{background:rgba(56,189,248,.2);color:var(--ac);border-radius:3px;padding:0 2px}
 </style>
 </head>
 <body>
 <div class="shell">
+
   <!-- HEADER -->
   <div class="hdr">
     <div class="hdr-top">
@@ -241,7 +153,7 @@ mark{background:rgba(56,189,248,.2);color:var(--ac);border-radius:3px;padding:0 
   <!-- PAGES -->
   <div class="pages">
 
-    <!-- SEARCH -->
+    <!-- TÌM KIẾM -->
     <div class="page active" id="page-search">
       <div class="srch-wrap">
         <svg class="srch-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -260,57 +172,33 @@ mark{background:rgba(56,189,248,.2);color:var(--ac);border-radius:3px;padding:0 
       </div>
     </div>
 
-    <!-- ADD CUSTOMER -->
+    <!-- THÊM KHÁCH -->
     <div class="page" id="page-add">
       <div class="fcard">
-        <div class="fg"><label class="fl">Tên Facebook *</label>
-          <input class="fi" type="text" id="add-fb" placeholder="VD: Nguyễn Văn A" autocomplete="off"></div>
-        <div class="fg"><label class="fl">Địa Chỉ</label>
-          <input class="fi" type="text" id="add-addr" placeholder="VD: 123 Lê Duẩn, Đông Hà"></div>
-        <div class="fg"><label class="fl">Số Điện Thoại</label>
-          <input class="fi" type="tel" id="add-phone" placeholder="VD: 0901234567"></div>
-        <div class="fg"><label class="fl">Ngày Sinh Nhật</label>
-          <input class="fi" type="text" id="add-bday" placeholder="VD: 15/08/1990"
-            inputmode="numeric" maxlength="10" oninput="bdayInput(event)"></div>
+        <div class="fg">
+          <label class="fl">Tên Facebook *</label>
+          <input class="fi" type="text" id="add-fb" placeholder="VD: Nguyễn Văn A" autocomplete="off">
+        </div>
+        <div class="fg">
+          <label class="fl">Địa Chỉ</label>
+          <input class="fi" type="text" id="add-addr" placeholder="VD: 123 Lê Duẩn, Đông Hà">
+        </div>
+        <div class="fg">
+          <label class="fl">Số Điện Thoại</label>
+          <input class="fi" type="tel" id="add-phone" placeholder="VD: 0901234567">
+        </div>
       </div>
-      <button class="btn-main" id="btn-add-cust" onclick="addCustomer()">Lưu Khách Hàng</button>
+      <button class="btn-main" id="btn-add" onclick="addCustomer()">Lưu Khách Hàng</button>
     </div>
 
-    <!-- LIST -->
+    <!-- DANH SÁCH -->
     <div class="page" id="page-list">
       <div class="sort-bar">
         <button class="sort-opt active" id="sort-recent" onclick="setSort('recent')">Gần đây</button>
         <button class="sort-opt" id="sort-az" onclick="setSort('az')">A → Z</button>
       </div>
-      <div class="sec-title" id="list-label" style="margin-bottom:10px">Tất cả</div>
+      <div class="sec-label" id="list-label">Tất cả</div>
       <div id="list-res"></div>
-    </div>
-
-    <!-- ORDERS -->
-    <div class="page" id="page-orders">
-      <div class="srch-wrap" style="margin-bottom:8px">
-        <svg class="srch-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
-        </svg>
-        <input type="text" id="order-srch" placeholder="Tìm tên khách..."
-          oninput="renderOrders()" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
-      </div>
-      <div class="filter-bar">
-        <button class="filter-opt active" data-f="all" onclick="setOrderFilter('all')">Tất cả</button>
-        <button class="filter-opt" data-f="cho" onclick="setOrderFilter('cho')">⏳ Chờ</button>
-        <button class="filter-opt" data-f="giao" onclick="setOrderFilter('giao')">🚚 Giao</button>
-        <button class="filter-opt" data-f="choct" onclick="setOrderFilter('choct')">🔄 Chờ CK</button>
-        <button class="filter-opt" data-f="cktoan" onclick="setOrderFilter('cktoan')">✅ Đã CK</button>
-        <button class="filter-opt" data-f="tienmat" onclick="setOrderFilter('tienmat')">💵 TM</button>
-        <button class="filter-opt" data-f="xong" onclick="setOrderFilter('xong')">✓ Xong</button>
-      </div>
-      <div class="sec-title" id="orders-label" style="margin-bottom:10px">Đơn hàng</div>
-      <div id="orders-res"></div>
-    </div>
-
-    <!-- STATS -->
-    <div class="page" id="page-stats">
-      <div id="stats-content"></div>
     </div>
 
   </div>
@@ -319,7 +207,7 @@ mark{background:rgba(56,189,248,.2);color:var(--ac);border-radius:3px;padding:0 
   <div class="tab-bar">
     <button class="tab active" id="tab-search" onclick="switchTab('search')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      Tìm
+      Tìm kiếm
     </button>
     <button class="tab" id="tab-add" onclick="switchTab('add')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
@@ -327,97 +215,21 @@ mark{background:rgba(56,189,248,.2);color:var(--ac);border-radius:3px;padding:0 
     </button>
     <button class="tab" id="tab-list" onclick="switchTab('list')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
-      DS KH
-    </button>
-    <button class="tab" id="tab-orders" onclick="switchTab('orders')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-      Đơn
-    </button>
-    <button class="tab" id="tab-stats" onclick="switchTab('stats')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-      Thống kê
+      Danh sách
     </button>
   </div>
 </div>
 
-<!-- EDIT CUSTOMER MODAL -->
+<!-- MODAL SỬA -->
 <div class="modal-bg" id="edit-modal">
   <div class="modal">
     <div class="modal-title">Chỉnh sửa khách hàng</div>
     <div class="fg"><label class="fl">Tên Facebook *</label><input class="fi" type="text" id="edit-fb" autocomplete="off"></div>
     <div class="fg"><label class="fl">Địa Chỉ</label><input class="fi" type="text" id="edit-addr"></div>
     <div class="fg"><label class="fl">Số Điện Thoại</label><input class="fi" type="tel" id="edit-phone"></div>
-    <div class="fg"><label class="fl">Ngày Sinh Nhật</label>
-      <input class="fi" type="text" id="edit-bday" placeholder="VD: 15/08/1990" inputmode="numeric" maxlength="10" oninput="bdayInput(event)">
-    </div>
     <div class="modal-acts">
-      <button class="btn-cancel" onclick="closeModal('edit-modal')">Huỷ</button>
-      <button class="btn-ok" onclick="saveEditCust()">Lưu</button>
-    </div>
-  </div>
-</div>
-
-<!-- ORDER MODAL -->
-<div class="modal-bg" id="order-modal">
-  <div class="modal">
-    <div class="modal-title">Tạo đơn hàng</div>
-    <div class="fg">
-      <label class="fl">Khách hàng</label>
-      <div id="order-cust-name" style="font-size:15px;font-weight:600;color:var(--ac)"></div>
-    </div>
-    <div class="fg"><label class="fl">Ngày mua</label><input class="fi" type="date" id="order-date"></div>
-    <div id="menu-picker"></div>
-    <div class="order-summary">
-      <div class="os-row"><span class="os-label">Tạm tính</span><span id="os-sub">0đ</span></div>
-      <div class="os-row">
-        <span class="os-label">Giảm giá (nghìn)</span>
-        <input type="number" id="os-discount" class="discount-input" value="0" min="0" step="1" oninput="calcTotal()">
-      </div>
-      <div class="os-row"><span>Tổng tiền</span><span id="os-total">0đ</span></div>
-    </div>
-    <div class="fg" style="margin-top:10px">
-      <label class="fl">Ghi chú</label>
-      <input class="fi" type="text" id="order-note" placeholder="VD: giao lúc 5h chiều...">
-    </div>
-    <div class="modal-acts">
-      <button class="btn-cancel" onclick="closeModal('order-modal')">Huỷ</button>
-      <button class="btn-ok" onclick="saveOrder()">Tạo đơn</button>
-    </div>
-  </div>
-</div>
-
-<!-- ORDER DETAIL MODAL -->
-<div class="modal-bg" id="order-detail-modal">
-  <div class="modal">
-    <div class="modal-title">Chi tiết đơn hàng</div>
-    <div id="order-detail-body"></div>
-    <div class="modal-acts">
-      <button class="btn-cancel" onclick="closeModal('order-detail-modal')">Đóng</button>
-    </div>
-  </div>
-</div>
-
-<!-- MENU MODAL -->
-<div class="modal-bg" id="menu-modal">
-  <div class="modal">
-    <div class="modal-title">Quản lý Menu</div>
-    <div id="menu-list"></div>
-    <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--bd)">
-      <div class="fg"><label class="fl">Danh mục</label>
-        <select class="fi" id="new-item-cat">
-          <option value="Rau câu">Rau câu</option>
-          <option value="Bánh">Bánh</option>
-          <option value="Khác">Khác</option>
-        </select>
-      </div>
-      <div class="fg"><label class="fl">Tên món</label>
-        <input class="fi" type="text" id="new-item-name" placeholder="VD: Rau câu hoa"></div>
-      <div class="fg"><label class="fl">Giá (nghìn đồng)</label>
-        <input class="fi" type="number" id="new-item-price" placeholder="VD: 45"></div>
-    </div>
-    <div class="modal-acts">
-      <button class="btn-cancel" onclick="closeModal('menu-modal')">Đóng</button>
-      <button class="btn-ok" onclick="addMenuItem()">Thêm món</button>
+      <button class="btn-cancel" onclick="closeModal()">Huỷ</button>
+      <button class="btn-ok" onclick="saveEdit()">Lưu</button>
     </div>
   </div>
 </div>
@@ -425,101 +237,49 @@ mark{background:rgba(56,189,248,.2);color:var(--ac);border-radius:3px;padding:0 
 <div class="toast" id="toast"></div>
 
 <script>
-// === CONFIG ===
 const API = 'https://script.google.com/macros/s/AKfycbydXy5h7Bn-s4hFVFVFEoufJJcrLrVHwO7CgKHmBMyTVjgQDTGZ371xPt-2PnJ_g2jv/exec';
-const CACHE = 'banhnathu_v1';
+const CACHE_KEY = 'banhnathu_simple_v1';
 
-// === STATE ===
-let customers = [], menu = [], orders = [];
-let editCustId = null, orderCustId = null, orderQty = {}, detailOrderId = null;
-let sortMode = 'recent', orderFilter = 'all';
+let customers = [];
+let editId = null;
+let sortMode = 'recent';
 
-// === CACHE ===
+// ── CACHE ──
 function saveCache() {
-  try { localStorage.setItem(CACHE, JSON.stringify({ customers, menu, orders })); } catch(e) {}
+  try { localStorage.setItem(CACHE_KEY, JSON.stringify(customers)); } catch(e) {}
 }
 function loadCache() {
-  try {
-    const d = JSON.parse(localStorage.getItem(CACHE) || '{}');
-    customers = d.customers || [];
-    menu = d.menu || [];
-    orders = d.orders || [];
-  } catch(e) { customers = []; menu = []; orders = []; }
+  try { customers = JSON.parse(localStorage.getItem(CACHE_KEY) || '[]'); } catch(e) { customers = []; }
 }
 
-// === DATE UTILS ===
-function parseDate(val) {
-  if (!val) return '';
-  const s = String(val).trim();
-  if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
-  if (/^\d{2}\/\d{2}\/\d{4}$/.test(s)) {
-    const [d, m, y] = s.split('/');
-    return y + '-' + m.padStart(2,'0') + '-' + d.padStart(2,'0');
-  }
-  const dt = new Date(s);
-  if (!isNaN(dt.getTime())) {
-    const y = dt.getFullYear();
-    const m = String(dt.getMonth()+1).padStart(2,'0');
-    const d = String(dt.getDate()).padStart(2,'0');
-    return y + '-' + m + '-' + d;
-  }
-  return '';
-}
-function displayDate(iso) {
-  if (!iso) return '';
-  const parts = iso.split('-');
-  return parts[2] + '/' + parts[1] + '/' + parts[0];
-}
-function todayISO() { return new Date().toISOString().slice(0, 10); }
-function yesterdayISO() { return new Date(Date.now() - 86400000).toISOString().slice(0, 10); }
-
-// === PHONE FIX ===
+// ── PHONE FIX ──
 function fixPhone(p) {
   if (!p) return '';
   const s = String(p).replace(/\.0*$/, '').replace(/\D/g, '');
   return s.length === 9 ? '0' + s : s;
 }
 
-// === FORMAT ===
-function fmtMoney(n) {
-  return new Intl.NumberFormat('vi-VN').format(Number(n) || 0) + 'đ';
-}
-function highlight(text, q) {
+// ── HIGHLIGHT ──
+function hl(text, q) {
   if (!q || !text) return text || '';
   return String(text).replace(
     new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi'),
     '<mark>$1</mark>'
   );
 }
+
+// ── AVATAR ──
 function initials(name) {
-  const parts = String(name).trim().split(/\s+/);
-  if (parts.length === 1) return parts[0][0].toUpperCase();
-  return parts[0][0].toUpperCase() + parts[parts.length-1][0].toUpperCase();
+  const p = String(name).trim().split(/\s+/);
+  return p.length === 1 ? p[0][0].toUpperCase() : p[0][0].toUpperCase() + p[p.length-1][0].toUpperCase();
 }
-function avatarClass(name) {
+function avCls(name) {
   let h = 0;
   for (let i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) & 0xffff;
   return 'av-' + (h % 6);
 }
-function badgeHTML(n) {
-  if (n >= 50) return '<span class="badge badge-vip">👑 VIP</span>';
-  if (n >= 10) return '<span class="badge badge-quen">⭐ Khách quen</span>';
-  return '<span class="badge badge-new">Khách mới</span>';
-}
-function statusLabel(s) {
-  const MAP = {
-    cho:     ['st-cho',   '⏳ Chờ xử lý'],
-    giao:    ['st-giao',  '🚚 Đang giao'],
-    xong:    ['st-xong',  '✓ Hoàn thành'],
-    tienmat: ['st-tm',    '💵 Tiền mặt'],
-    cktoan:  ['st-ck',    '✅ Đã CK'],
-    choct:   ['st-choct', '🔄 Chờ CK'],
-  };
-  const v = MAP[s] || MAP['cho'];
-  return '<span class="status-badge ' + v[0] + '">' + v[1] + '</span>';
-}
 
-// === JSONP ===
+// ── JSONP ──
 function jsonpFetch(url) {
   return new Promise(function(resolve, reject) {
     const id = 'cb_' + Date.now() + '_' + Math.random().toString(36).slice(2);
@@ -542,6 +302,7 @@ function jsonpFetch(url) {
     document.head.appendChild(script);
   });
 }
+
 async function apiPost(body) {
   try {
     await fetch(API, {
@@ -552,33 +313,18 @@ async function apiPost(body) {
   } catch(e) {}
 }
 
-// === SYNC ===
+// ── SYNC ──
 async function syncFromServer() {
   try {
     const r = await jsonpFetch(API + '?action=getAll');
     if (!r || !r.ok) return false;
     customers = (r.customers || []).map(function(c) {
       return {
-        id: String(c.id), fb: String(c.fb || ''),
-        addr: String(c.addr || ''), phone: fixPhone(c.phone),
-        birthday: parseDate(c.birthday), orders: Number(c.orders) || 0
-      };
-    });
-    if (r.menu && r.menu.length) {
-      menu = r.menu.map(function(m) {
-        return {
-          id: String(m.id), cat: String(m.cat || ''),
-          name: String(m.name || ''), price: Number(m.price) || 0,
-          active: String(m.active || '1')
-        };
-      });
-    }
-    orders = (r.orders || []).map(function(o) {
-      return {
-        id: String(o.id), customerId: String(o.customerId),
-        date: parseDate(o.date), items: String(o.items || ''),
-        total: Number(o.total) || 0, discount: Number(o.discount) || 0,
-        status: String(o.status || 'cho'), note: String(o.note || '')
+        id: String(c.id),
+        fb: String(c.fb || ''),
+        addr: String(c.addr || ''),
+        phone: fixPhone(c.phone),
+        orders: Number(c.orders) || 0
       };
     });
     saveCache();
@@ -590,17 +336,15 @@ async function syncFromServer() {
   }
 }
 
-// === INIT ===
+// ── INIT ──
 window.addEventListener('DOMContentLoaded', function() {
   loadCache();
   updateCount();
   renderList();
-  // Sync ngầm
   setTimeout(async function() {
     const ok = await syncFromServer();
     if (ok) { updateCount(); renderList(); }
-  }, 300);
-  checkBirthdays();
+  }, 200);
 });
 
 async function syncNow() {
@@ -608,11 +352,11 @@ async function syncNow() {
   btn.classList.add('spin');
   const ok = await syncFromServer();
   btn.classList.remove('spin');
-  updateCount(); renderList(); renderOrders(); renderStats();
+  updateCount(); renderList();
   showToast(ok ? '✓ Đã đồng bộ!' : 'Không có internet', ok ? 'ok' : 'er');
 }
 
-// === UI UTILS ===
+// ── UI UTILS ──
 function updateCount() {
   document.getElementById('count-chip').textContent = customers.length + ' khách';
 }
@@ -624,89 +368,68 @@ function showToast(msg, type) {
   showToast._t = setTimeout(function() { t.className = 'toast'; }, 2500);
 }
 function switchTab(tab) {
-  ['search','add','list','orders','stats'].forEach(function(t) {
+  ['search', 'add', 'list'].forEach(function(t) {
     document.getElementById('page-' + t).classList.toggle('active', t === tab);
     document.getElementById('tab-' + t).classList.toggle('active', t === tab);
   });
   if (tab === 'list') renderList();
-  else if (tab === 'orders') renderOrders();
-  else if (tab === 'stats') renderStats();
 }
-function openModal(id) { document.getElementById(id).classList.add('open'); }
-function closeModal(id) { document.getElementById(id).classList.remove('open'); }
-function emptyState(p, s) {
-  return '<div class="empty"><div class="empty-icon">○</div><p>' + p + '</p>' + (s ? '<small>' + s + '</small>' : '') + '</div>';
-}
+function openModal() { document.getElementById('edit-modal').classList.add('open'); }
+function closeModal() { document.getElementById('edit-modal').classList.remove('open'); }
 document.addEventListener('click', function(e) {
   if (e.target.classList.contains('modal-bg')) e.target.classList.remove('open');
 });
-
-// === BIRTHDAY ===
-function checkBirthdays() {
-  const today = todayISO().slice(5);
-  const soon = customers.filter(function(c) {
-    if (!c.birthday) return false;
-    const bd = c.birthday.slice(5);
-    const tm = today.split('-').map(Number);
-    const bm = bd.split('-').map(Number);
-    const diff = (bm[0]*31 + bm[1]) - (tm[0]*31 + tm[1]);
-    return diff >= 0 && diff <= 3;
-  });
-  if (!soon.length) return;
-  const el = document.getElementById('srch-res');
-  el.innerHTML = soon.map(function(c) {
-    return '<div class="bday-banner">🎂 Sinh nhật <strong>' + c.fb + '</strong> — ' + displayDate(c.birthday) + '</div>';
-  }).join('') + el.innerHTML;
-}
-function bdayInput(e) {
-  let v = e.target.value.replace(/\D/g, '');
-  if (v.length > 2) v = v.slice(0,2) + '/' + v.slice(2);
-  if (v.length > 5) v = v.slice(0,5) + '/' + v.slice(5,9);
-  e.target.value = v;
+function emptyState(p, s) {
+  return '<div class="empty"><div class="empty-icon">○</div><p>' + p + '</p>' + (s ? '<small>' + s + '</small>' : '') + '</div>';
 }
 
-// === CUSTOMER CARD ===
-function custCard(c, q, showActs) {
+// ── CUSTOMER CARD ──
+function custCard(c, q) {
   const mapsUrl = c.addr
     ? 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(c.addr) : '';
   return '<div class="card">' +
     '<div class="card-hdr">' +
-      '<div class="av ' + avatarClass(c.fb) + '">' + initials(c.fb) + '</div>' +
-      '<div class="card-title">' +
-        '<div class="card-name">' + highlight(c.fb, q) + '</div>' +
-        '<div>' + badgeHTML(c.orders) + '</div>' +
-      '</div>' +
-      '<span class="order-pip">' + c.orders + ' đơn</span>' +
+      '<div class="av ' + avCls(c.fb) + '">' + initials(c.fb) + '</div>' +
+      '<div class="card-name">' + hl(c.fb, q) + '</div>' +
     '</div>' +
     '<div class="card-info">' +
-      (c.addr ? '<div class="ci">📍 <span>' + highlight(c.addr, q) + '</span></div>' : '') +
-      (c.phone ? '<div class="ci">📞 <span>' + highlight(c.phone, q) + '</span></div>' : '') +
-      (c.birthday ? '<div class="ci">🎂 <span>' + displayDate(c.birthday) + '</span></div>' : '') +
+      (c.addr ? '<div class="ci">📍 <span>' + hl(c.addr, q) + '</span></div>' : '') +
+      (c.phone ? '<div class="ci">📞 <span>' + hl(c.phone, q) + '</span></div>' : '') +
     '</div>' +
     '<div class="card-acts">' +
       (c.phone ? '<a class="act call" href="tel:' + c.phone + '">📞 Gọi</a>' : '') +
       (mapsUrl ? '<a class="act maps" href="' + mapsUrl + '" target="_blank">🗺 Maps</a>' : '') +
-      '<button class="act order" onclick="openOrderModal(\'' + c.id + '\')">🛍 Đặt</button>' +
-      (showActs ? '<button class="act edit" onclick="openEditCust(\'' + c.id + '\')">✏️ Sửa</button>' +
-        '<button class="act del" onclick="deleteCust(\'' + c.id + '\')">🗑 Xoá</button>' : '') +
+      '<button class="act zalo" onclick="shareZalo(\'' + c.id + '\')">📤 Zalo</button>' +
+      '<button class="act edit" onclick="openEdit(\'' + c.id + '\')">✏️ Sửa</button>' +
+      '<button class="act del" onclick="deleteCust(\'' + c.id + '\')">🗑 Xoá</button>' +
     '</div></div>';
 }
 
-// === SEARCH ===
+// ── SEARCH ──
 function doSearch() {
   const q = document.getElementById('srch-inp').value.trim();
   document.getElementById('srch-clr').style.display = q ? 'flex' : 'none';
   const el = document.getElementById('srch-res');
-  if (!q) { el.innerHTML = emptyState('Tìm kiếm khách hàng', 'Nhập tên FB, địa chỉ hoặc SĐT'); return; }
+  if (!q) {
+    el.innerHTML = emptyState('Tìm kiếm khách hàng', 'Nhập tên FB, địa chỉ hoặc SĐT');
+    return;
+  }
   const ql = q.toLowerCase();
   const res = customers.filter(function(c) {
-    return c.fb.toLowerCase().includes(ql) || c.addr.toLowerCase().includes(ql) || c.phone.includes(q);
+    return c.fb.toLowerCase().includes(ql) ||
+      c.addr.toLowerCase().includes(ql) ||
+      c.phone.includes(q);
   });
-  el.innerHTML = res.length ? res.map(function(c) { return custCard(c, q, true); }).join('') : emptyState('Không tìm thấy', 'Thử từ khoá khác');
+  el.innerHTML = res.length
+    ? res.map(function(c) { return custCard(c, q); }).join('')
+    : emptyState('Không tìm thấy', 'Thử từ khoá khác');
 }
-function clearSearch() { document.getElementById('srch-inp').value = ''; doSearch(); }
+function clearSearch() {
+  document.getElementById('srch-inp').value = '';
+  doSearch();
+}
 
-// === LIST ===
+// ── LIST ──
 function setSort(s) {
   sortMode = s;
   document.getElementById('sort-recent').classList.toggle('active', s === 'recent');
@@ -715,14 +438,16 @@ function setSort(s) {
 }
 function renderList() {
   const data = customers.slice();
-  if (sortMode === 'az') data.sort(function(a,b) { return a.fb.localeCompare(b.fb, 'vi'); });
+  if (sortMode === 'az') data.sort(function(a, b) { return a.fb.localeCompare(b.fb, 'vi'); });
   else data.reverse();
   document.getElementById('list-label').textContent = 'Tất cả — ' + data.length + ' khách';
   const el = document.getElementById('list-res');
-  el.innerHTML = data.length ? data.map(function(c) { return custCard(c, '', true); }).join('') : emptyState('Chưa có khách hàng', 'Thêm ở tab Thêm KH');
+  el.innerHTML = data.length
+    ? data.map(function(c) { return custCard(c, ''); }).join('')
+    : emptyState('Chưa có khách hàng', 'Thêm ở tab Thêm KH');
 }
 
-// === ADD CUSTOMER ===
+// ── ADD ──
 async function addCustomer() {
   const fb = document.getElementById('add-fb').value.trim();
   if (!fb) { showToast('Vui lòng nhập tên Facebook', 'er'); return; }
@@ -731,50 +456,53 @@ async function addCustomer() {
     const dup = customers.find(function(c) { return c.phone && c.phone === phone; });
     if (dup) { showToast('SĐT đã có: ' + dup.fb, 'er'); return; }
   }
-  const btn = document.getElementById('btn-add-cust');
+  const btn = document.getElementById('btn-add');
   btn.disabled = true; btn.textContent = 'Đang lưu...';
   const c = {
-    id: Date.now().toString(), fb: fb,
+    id: Date.now().toString(),
+    fb: fb,
     addr: document.getElementById('add-addr').value.trim(),
     phone: phone,
-    birthday: parseDate(document.getElementById('add-bday').value.trim()),
     orders: 0
   };
   customers.push(c); saveCache(); updateCount(); renderList();
-  ['add-fb','add-addr','add-phone','add-bday'].forEach(function(id) { document.getElementById(id).value = ''; });
+  ['add-fb', 'add-addr', 'add-phone'].forEach(function(id) {
+    document.getElementById(id).value = '';
+  });
   btn.disabled = false; btn.textContent = 'Lưu Khách Hàng';
   showToast('Đã lưu: ' + fb, 'ok');
   switchTab('list');
-  apiPost({ action: 'add', sheet: 'KhachHang', id: c.id, fb: c.fb, addr: c.addr, phone: c.phone, birthday: c.birthday, orders: c.orders });
+  apiPost({ action: 'add', sheet: 'KhachHang', id: c.id, fb: c.fb, addr: c.addr, phone: c.phone, birthday: '', orders: 0 });
 }
 
-// === EDIT CUSTOMER ===
-function openEditCust(id) {
+// ── EDIT ──
+function openEdit(id) {
   const c = customers.find(function(x) { return x.id === id; });
   if (!c) return;
-  editCustId = id;
+  editId = id;
   document.getElementById('edit-fb').value = c.fb;
   document.getElementById('edit-addr').value = c.addr || '';
   document.getElementById('edit-phone').value = c.phone || '';
-  document.getElementById('edit-bday').value = displayDate(c.birthday);
-  openModal('edit-modal');
+  openModal();
 }
-async function saveEditCust() {
+async function saveEdit() {
   const fb = document.getElementById('edit-fb').value.trim();
   if (!fb) { showToast('Vui lòng nhập tên Facebook', 'er'); return; }
-  const idx = customers.findIndex(function(c) { return c.id === editCustId; });
-  if (idx === -1) { closeModal('edit-modal'); return; }
+  const idx = customers.findIndex(function(c) { return c.id === editId; });
+  if (idx === -1) { closeModal(); return; }
   customers[idx] = {
-    id: customers[idx].id, fb: fb,
+    id: customers[idx].id,
+    fb: fb,
     addr: document.getElementById('edit-addr').value.trim(),
     phone: document.getElementById('edit-phone').value.trim(),
-    birthday: parseDate(document.getElementById('edit-bday').value.trim()),
-    orders: customers[idx].orders
+    orders: customers[idx].orders || 0
   };
-  saveCache(); closeModal('edit-modal'); renderList();
+  saveCache(); closeModal(); renderList();
   showToast('Đã cập nhật', 'ok');
-  apiPost({ action: 'update', sheet: 'KhachHang', id: customers[idx].id, fb: customers[idx].fb, addr: customers[idx].addr, phone: customers[idx].phone, birthday: customers[idx].birthday, orders: customers[idx].orders });
+  apiPost({ action: 'update', sheet: 'KhachHang', id: customers[idx].id, fb: customers[idx].fb, addr: customers[idx].addr, phone: customers[idx].phone, birthday: '', orders: customers[idx].orders });
 }
+
+// ── DELETE ──
 async function deleteCust(id) {
   if (!confirm('Xoá khách hàng này?')) return;
   customers = customers.filter(function(c) { return c.id !== id; });
@@ -783,164 +511,23 @@ async function deleteCust(id) {
   apiPost({ action: 'delete', sheet: 'KhachHang', id: id });
 }
 
-// === ORDER MODAL ===
-function openOrderModal(custId) {
-  const c = customers.find(function(x) { return x.id === custId; });
+// ── ZALO ──
+function shareZalo(id) {
+  const c = customers.find(function(x) { return x.id === id; });
   if (!c) return;
-  orderCustId = custId; orderQty = {};
-  document.getElementById('order-cust-name').textContent = c.fb;
-  document.getElementById('order-date').value = todayISO();
-  document.getElementById('os-discount').value = 0;
-  document.getElementById('order-note').value = '';
-  renderMenuPicker();
-  openModal('order-modal');
-}
-function renderMenuPicker() {
-  const cats = [];
-  menu.filter(function(m) { return m.active !== '0'; }).forEach(function(m) {
-    if (cats.indexOf(m.cat) === -1) cats.push(m.cat);
-  });
-  let html = '';
-  cats.forEach(function(cat) {
-    html += '<div class="menu-cat">' + cat + '</div>';
-    menu.filter(function(m) { return m.cat === cat && m.active !== '0'; }).forEach(function(m) {
-      const qty = orderQty[m.id] || 0;
-      html += '<div class="menu-row' + (qty > 0 ? ' selected' : '') + '" id="mr-' + m.id + '">' +
-        '<span class="mr-name">' + m.name + '</span>' +
-        '<span class="mr-price">' + fmtMoney(m.price) + '</span>' +
-        '<div class="qty-ctrl">' +
-          '<button class="qty-btn minus" onclick="changeQty(\'' + m.id + '\',-1)">−</button>' +
-          '<span class="qty-num" id="qn-' + m.id + '">' + qty + '</span>' +
-          '<button class="qty-btn plus" onclick="changeQty(\'' + m.id + '\',1)">+</button>' +
-        '</div></div>';
-    });
-  });
-  document.getElementById('menu-picker').innerHTML = html;
-  calcTotal();
-}
-function changeQty(id, d) {
-  orderQty[id] = Math.max(0, (orderQty[id] || 0) + d);
-  const qn = document.getElementById('qn-' + id);
-  const mr = document.getElementById('mr-' + id);
-  if (qn) qn.textContent = orderQty[id];
-  if (mr) mr.classList.toggle('selected', orderQty[id] > 0);
-  calcTotal();
-}
-function calcTotal() {
-  let sub = 0;
-  menu.forEach(function(m) {
-    sub += m.price * (orderQty[m.id] || 0);
-  });
-  const manDisc = (Number(document.getElementById('os-discount').value) || 0) * 1000;
-  const total = Math.max(0, sub - manDisc);
-  document.getElementById('os-sub').textContent = fmtMoney(sub);
-  document.getElementById('os-total').textContent = fmtMoney(total);
-  return { sub: sub, rauDisc: 0, manDisc: manDisc, total: total };
-}
-async function saveOrder() {
-  const picked = Object.keys(orderQty).filter(function(id) { return orderQty[id] > 0; });
-  if (!picked.length) { showToast('Chưa chọn món nào', 'er'); return; }
-  const totals = calcTotal();
-  const itemsStr = picked.map(function(id) {
-    const m = menu.find(function(x) { return x.id === id; });
-    return m ? m.name + 'x' + orderQty[id] + '(' + fmtMoney(m.price * orderQty[id]) + ')' : '?x' + orderQty[id];
-  }).join(', ');
-  const ord = {
-    id: Date.now().toString(), customerId: orderCustId,
-    date: document.getElementById('order-date').value,
-    items: itemsStr, total: totals.total,
-    discount: totals.rauDisc + totals.manDisc,
-    status: 'cho', note: document.getElementById('order-note').value.trim()
-  };
-  orders.push(ord);
-  const ci = customers.findIndex(function(c) { return c.id === orderCustId; });
-  if (ci > -1) customers[ci].orders = (customers[ci].orders || 0) + 1;
-  saveCache(); closeModal('order-modal'); updateCount(); renderList(); renderOrders();
-  showToast('Đã tạo đơn!', 'ok');
-  apiPost({ action: 'add', sheet: 'DonHang', id: ord.id, customerId: ord.customerId, date: ord.date, items: ord.items, total: ord.total, discount: ord.discount, status: ord.status, note: ord.note });
-}
-
-// === ORDER LIST ===
-function setOrderFilter(f) {
-  orderFilter = f;
-  document.querySelectorAll('.filter-opt').forEach(function(b) {
-    b.classList.toggle('active', b.dataset.f === f);
-  });
-  renderOrders();
-}
-function renderOrders() {
-  const srchEl = document.getElementById('order-srch');
-  const ql = srchEl ? srchEl.value.trim().toLowerCase() : '';
-  let data = orders.slice();
-  if (ql) data = data.filter(function(o) {
-    const c = customers.find(function(x) { return x.id === o.customerId; });
-    return c && c.fb.toLowerCase().includes(ql);
-  });
-  if (orderFilter !== 'all') data = data.filter(function(o) { return o.status === orderFilter; });
-  data.sort(function(a, b) {
-    return b.date.localeCompare(a.date) || Number(b.id) - Number(a.id);
-  });
-  const totalAmt = data.reduce(function(s, o) { return s + o.total; }, 0);
-  document.getElementById('orders-label').textContent = data.length + ' đơn · Tổng: ' + fmtMoney(totalAmt);
-  const el = document.getElementById('orders-res');
-  if (!data.length) { el.innerHTML = emptyState('Không có đơn nào', 'Thử bộ lọc khác'); return; }
-  const today = todayISO(), yesterday = yesterdayISO();
-  const groups = {};
-  data.forEach(function(o) { if (!groups[o.date]) groups[o.date] = []; groups[o.date].push(o); });
-  let html = '';
-  Object.keys(groups).sort(function(a,b) { return b.localeCompare(a); }).forEach(function(date) {
-    const grp = groups[date];
-    const grpTotal = grp.reduce(function(s,o) { return s+o.total; }, 0);
-    const label = date === today ? 'Hôm nay' : date === yesterday ? 'Hôm qua' : displayDate(date);
-    const cls = date === today ? 'today' : date === yesterday ? 'yesterday' : '';
-    html += '<div class="day-hdr"><span class="day-label ' + cls + '">' + label + '</span>' +
-      '<span class="day-meta">' + grp.length + ' đơn · <span class="day-total">' + fmtMoney(grpTotal) + '</span></span></div>';
-    grp.forEach(function(o) {
-      const c = customers.find(function(x) { return x.id === o.customerId; });
-      const mapsUrl = c && c.addr ? 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(c.addr) : '';
-      html += '<div class="ohcard">' +
-        '<div class="oh-top"><span class="oh-name">' + (c ? c.fb : '?') + '</span><span class="oh-total">' + fmtMoney(o.total) + '</span></div>' +
-        (c && c.addr ? '<div class="oh-info">📍 ' + c.addr + '</div>' : '') +
-        (c && c.phone ? '<div class="oh-info">📞 ' + c.phone + '</div>' : '') +
-        '<div class="oh-items">' + o.items + '</div>' +
-        (o.discount > 0 ? '<div class="oh-disc">Giảm: ' + fmtMoney(o.discount) + '</div>' : '') +
-        (o.note ? '<div class="oh-note">📝 ' + o.note + '</div>' : '') +
-        '<div class="oh-acts">' + statusLabel(o.status) + '<div style="flex:1"></div>' +
-        (c && c.phone ? '<a class="act call" href="tel:' + c.phone + '">📞</a>' : '') +
-        (mapsUrl ? '<a class="act maps" href="' + mapsUrl + '" target="_blank">🗺</a>' : '') +
-        '<button class="act zalo" onclick="shareZalo(\'' + o.id + '\')">📤</button>' +
-        '<button class="act" onclick="openOrderDetail(\'' + o.id + '\')">Chi tiết</button>' +
-        '</div></div>';
-    });
-  });
-  el.innerHTML = html;
-}
-
-// === SHARE ZALO ===
-function shareZalo(orderId) {
-  const o = orders.find(function(x) { return x.id === orderId; });
-  if (!o) return;
-  const c = customers.find(function(x) { return x.id === o.customerId; });
-  const lines = [
-    '🧁 ĐƠN HÀNG BÁNH NHÀ THU',
-    '👤 ' + (c ? c.fb : '?'),
-    '📍 ' + (c && c.addr ? c.addr : '(chưa có địa chỉ)'),
-    '📞 ' + (c && c.phone ? c.phone : '(chưa có SĐT)'),
-    '🛍 ' + o.items,
-    '💰 Tổng: ' + fmtMoney(o.total) + (o.discount > 0 ? ' (Giảm: ' + fmtMoney(o.discount) + ')' : ''),
-  ];
-  if (o.note) lines.push('📝 ' + o.note);
-  const text = lines.join('\n');
+  const text = '👤 ' + c.fb + '\n📞 ' + (c.phone || '(chưa có SĐT)') + '\n📍 ' + (c.addr || '(chưa có địa chỉ)');
   if (navigator.share) {
     navigator.share({ text: text }).catch(function() {});
   } else if (navigator.clipboard) {
-    navigator.clipboard.writeText(text).then(function() { showToast('Đã copy! Dán vào Zalo', 'ok'); });
+    navigator.clipboard.writeText(text).then(function() {
+      showToast('Đã copy! Dán vào Zalo', 'ok');
+    });
   } else {
     const div = document.createElement('div');
     div.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.75);display:flex;align-items:flex-end;justify-content:center;z-index:300';
     div.innerHTML = '<div style="background:var(--s1);border-radius:20px 20px 0 0;padding:18px 16px 24px;width:100%">' +
       '<p style="font-size:14px;font-weight:600;text-align:center;margin-bottom:10px">Copy gửi Zalo</p>' +
-      '<textarea id="_ztx" style="width:100%;height:140px;background:var(--s2);border:1px solid var(--bd);border-radius:9px;padding:10px;font-size:13px;color:var(--tx);font-family:inherit;resize:none;outline:none">' + text + '</textarea>' +
+      '<textarea id="_ztx" style="width:100%;height:110px;background:var(--s2);border:1px solid var(--bd);border-radius:9px;padding:10px;font-size:14px;color:var(--tx);font-family:inherit;resize:none;outline:none">' + text + '</textarea>' +
       '<div style="display:flex;gap:8px;margin-top:10px">' +
       '<button onclick="this.closest(\'div[style]\').remove()" style="flex:1;padding:12px;background:var(--s2);border:1px solid var(--bd);border-radius:10px;font-family:inherit;color:var(--mu);cursor:pointer">Đóng</button>' +
       '<button onclick="var t=document.getElementById(\'_ztx\');t.select();document.execCommand(\'copy\');showToast(\'Đã copy!\',\'ok\');this.closest(\'div[style]\').remove()" style="flex:1;padding:12px;background:var(--ac2);border:none;border-radius:10px;font-family:inherit;font-weight:600;color:#fff;cursor:pointer">📋 Copy</button>' +
@@ -948,130 +535,6 @@ function shareZalo(orderId) {
     document.body.appendChild(div);
     div.addEventListener('click', function(e) { if (e.target === div) div.remove(); });
   }
-}
-
-// === ORDER DETAIL ===
-function openOrderDetail(id) {
-  const o = orders.find(function(x) { return x.id === id; });
-  if (!o) return;
-  detailOrderId = id;
-  const c = customers.find(function(x) { return x.id === o.customerId; });
-  const statuses = [
-    { key:'cho', label:'⏳ Chờ xử lý' }, { key:'giao', label:'🚚 Đang giao' },
-    { key:'xong', label:'✓ Hoàn thành' }, { key:'choct', label:'🔄 Chờ CK' },
-    { key:'cktoan', label:'✅ Đã CK' }, { key:'tienmat', label:'💵 Tiền mặt' },
-  ];
-  document.getElementById('order-detail-body').innerHTML =
-    '<div class="detail-row"><span class="dr-label">Khách</span><span class="dr-val ac">' + (c ? c.fb : '?') + '</span></div>' +
-    '<div class="detail-row"><span class="dr-label">Ngày</span><span class="dr-val">' + displayDate(o.date) + '</span></div>' +
-    '<div class="detail-row"><span class="dr-label">Món</span><span class="dr-val">' + o.items + '</span></div>' +
-    (o.discount > 0 ? '<div class="detail-row"><span class="dr-label">Giảm</span><span class="dr-val ok">' + fmtMoney(o.discount) + '</span></div>' : '') +
-    '<div class="detail-row"><span class="dr-label">Tổng</span><span class="dr-val ac" style="font-size:17px;font-weight:600">' + fmtMoney(o.total) + '</span></div>' +
-    (o.note ? '<div class="detail-row"><span class="dr-label">Ghi chú</span><span class="dr-val">' + o.note + '</span></div>' : '') +
-    '<div style="margin-top:14px"><div class="fl" style="margin-bottom:8px">Cập nhật trạng thái</div>' +
-    '<div class="status-picker">' +
-    statuses.map(function(s) {
-      return '<button class="sp-btn' + (o.status === s.key ? ' active' : '') + '" onclick="setOrderStatus(\'' + s.key + '\')">' + s.label + '</button>';
-    }).join('') +
-    '</div></div>' +
-    '<div style="margin-top:12px"><button class="act del" style="width:100%;padding:10px;justify-content:center" onclick="deleteOrder(\'' + o.id + '\')">🗑 Xoá đơn này</button></div>';
-  openModal('order-detail-modal');
-}
-async function setOrderStatus(newStatus) {
-  const idx = orders.findIndex(function(x) { return x.id === detailOrderId; });
-  if (idx === -1) return;
-  orders[idx].status = newStatus;
-  saveCache(); openOrderDetail(detailOrderId); renderOrders();
-  showToast('Đã cập nhật', 'ok');
-  apiPost({ action: 'update', sheet: 'DonHang', id: orders[idx].id, customerId: orders[idx].customerId, date: orders[idx].date, items: orders[idx].items, total: orders[idx].total, discount: orders[idx].discount, status: orders[idx].status, note: orders[idx].note });
-}
-async function deleteOrder(id) {
-  if (!confirm('Xoá đơn hàng này?')) return;
-  const o = orders.find(function(x) { return x.id === id; });
-  orders = orders.filter(function(x) { return x.id !== id; });
-  if (o) {
-    const ci = customers.findIndex(function(c) { return c.id === o.customerId; });
-    if (ci > -1) customers[ci].orders = Math.max(0, (customers[ci].orders || 1) - 1);
-  }
-  saveCache(); closeModal('order-detail-modal'); renderOrders(); renderList();
-  showToast('Đã xoá đơn', '');
-  apiPost({ action: 'delete', sheet: 'DonHang', id: id });
-}
-
-// === MENU MANAGEMENT ===
-function openMenuModal() { renderMenuMgmt(); openModal('menu-modal'); }
-function renderMenuMgmt() {
-  const cats = [];
-  menu.forEach(function(m) { if (cats.indexOf(m.cat) === -1) cats.push(m.cat); });
-  let html = '';
-  cats.forEach(function(cat) {
-    html += '<div class="menu-cat">' + cat + '</div>';
-    menu.filter(function(m) { return m.cat === cat; }).forEach(function(m) {
-      html += '<div class="menu-mgmt-row">' +
-        '<span style="flex:1;font-size:13px">' + m.name + '</span>' +
-        '<span style="font-size:12px;color:var(--mu);margin-right:10px">' + fmtMoney(m.price) + '</span>' +
-        '<button class="act del" style="flex:none;padding:4px 8px;font-size:12px" onclick="deleteMenuItem(\'' + m.id + '\')">✕</button>' +
-        '</div>';
-    });
-  });
-  document.getElementById('menu-list').innerHTML = html;
-}
-async function addMenuItem() {
-  const name = document.getElementById('new-item-name').value.trim();
-  const price = Number(document.getElementById('new-item-price').value) * 1000;
-  const cat = document.getElementById('new-item-cat').value;
-  if (!name || !price) { showToast('Nhập đủ tên và giá', 'er'); return; }
-  const item = { id: Date.now().toString(), cat: cat, name: name, price: price, active: '1' };
-  menu.push(item); saveCache(); renderMenuMgmt();
-  document.getElementById('new-item-name').value = '';
-  document.getElementById('new-item-price').value = '';
-  showToast('Đã thêm: ' + name, 'ok');
-  apiPost({ action: 'add', sheet: 'Menu', id: item.id, cat: item.cat, name: item.name, price: item.price, active: item.active });
-}
-async function deleteMenuItem(id) {
-  if (!confirm('Xoá món này?')) return;
-  menu = menu.filter(function(m) { return m.id !== id; });
-  saveCache(); renderMenuMgmt();
-  showToast('Đã xoá', '');
-  apiPost({ action: 'delete', sheet: 'Menu', id: id });
-}
-
-// === STATS ===
-function renderStats() {
-  const totalRev = orders.reduce(function(s,o) { return s+o.total; }, 0);
-  const month = todayISO().slice(0,7);
-  const monthOrds = orders.filter(function(o) { return o.date.startsWith(month); });
-  const monthRev = monthOrds.reduce(function(s,o) { return s+o.total; }, 0);
-  const vip = customers.filter(function(c) { return c.orders >= 50; }).length;
-  const quen = customers.filter(function(c) { return c.orders >= 10 && c.orders < 50; }).length;
-  const custRev = {};
-  orders.forEach(function(o) { custRev[o.customerId] = (custRev[o.customerId] || 0) + o.total; });
-  const topCust = Object.keys(custRev).sort(function(a,b) { return custRev[b]-custRev[a]; }).slice(0,5).map(function(id) {
-    const c = customers.find(function(x) { return x.id === id; });
-    return '<div class="rank-row"><span class="rank-n">' + (Object.keys(custRev).sort(function(a,b){return custRev[b]-custRev[a];}).indexOf(id)+1) + '</span><span class="rank-name">' + (c?c.fb:'?') + '</span><span class="rank-val">' + fmtMoney(custRev[id]) + '</span></div>';
-  });
-  const itemMap = {};
-  orders.forEach(function(o) {
-    o.items.split(',').forEach(function(part) {
-      const m2 = part.trim().match(/^(.+)x(\d+)/);
-      if (m2) itemMap[m2[1].trim()] = (itemMap[m2[1].trim()] || 0) + Number(m2[2]);
-    });
-  });
-  const topItems = Object.keys(itemMap).sort(function(a,b){return itemMap[b]-itemMap[a];}).slice(0,5).map(function(name,i) {
-    return '<div class="rank-row"><span class="rank-n">' + (i+1) + '</span><span class="rank-name">' + name + '</span><span class="rank-val">' + itemMap[name] + ' cái</span></div>';
-  });
-  document.getElementById('stats-content').innerHTML =
-    '<div class="stat-grid">' +
-    '<div class="stat-card"><div class="stat-label">Tổng doanh thu</div><div class="stat-val" style="font-size:16px">' + fmtMoney(totalRev) + '</div></div>' +
-    '<div class="stat-card"><div class="stat-label">Tháng này</div><div class="stat-val" style="font-size:16px">' + fmtMoney(monthRev) + '</div><div class="stat-sub">' + monthOrds.length + ' đơn</div></div>' +
-    '<div class="stat-card"><div class="stat-label">Tổng đơn</div><div class="stat-val">' + orders.length + '</div></div>' +
-    '<div class="stat-card"><div class="stat-label">Khách hàng</div><div class="stat-val">' + customers.length + '</div><div class="stat-sub">👑' + vip + ' VIP · ⭐' + quen + ' quen</div></div>' +
-    '</div>' +
-    '<div class="sec-title" style="margin:14px 0 8px">Top khách hàng</div>' +
-    (topCust.length ? topCust.join('') : emptyState('Chưa có dữ liệu','')) +
-    '<div class="sec-title" style="margin:14px 0 8px">Bánh bán chạy</div>' +
-    (topItems.length ? topItems.join('') : emptyState('Chưa có dữ liệu','')) +
-    '<button class="btn-sec" style="margin-top:14px" onclick="openMenuModal()">⚙️ Quản lý Menu</button>';
 }
 </script>
 </body>
